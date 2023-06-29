@@ -1,2 +1,1 @@
-#Ignorar estos archivos
-."./praticas/calculadora.js"
+node_modules

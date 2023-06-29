@@ -1,4 +1,5 @@
-const fs = require("fs");
+import fs from "fs"
+
 
 class ProductManager{
     constructor(path){
@@ -98,7 +99,6 @@ class ProductManager{
             if(this.fileExist){
                 const contentTheFile = await fs.promises.readFile(this.path, "utf-8")
                 const content = JSON.parse(contentTheFile)
-                console.log("Products:", content)
                 return content
             }
             else{
@@ -164,4 +164,6 @@ class ProductManager{
     }
 }
 
-module.exports = { ProductManager }
+
+
+export default ProductManager
