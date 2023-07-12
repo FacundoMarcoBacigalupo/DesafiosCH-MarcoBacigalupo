@@ -1,10 +1,11 @@
 import fs from "fs"
+import {__dirname} from "../utils.js"
+import path from "path"
 
 
-class ProductManager{
-    constructor(path){
-        this.path = path
-        this.uniqueId = 1
+class CartManager{
+    constructor(fileName){
+        this.path = path.join(__dirname, `/files/${fileName}`)
     }
 
 
@@ -14,46 +15,31 @@ class ProductManager{
     }
 
 
-
-    async addProduct(title, description, price, thumbnail, code, stock){
+    async addCart(){
         try {
-//Verify if all camps are full
-        if(!title || !description || !price || !thumbnail || !code || !stock || "" || null){
-            console.error("All camps are obligatory");
-        }
+            const contentTheFile = await fs.promises.readFile(this.path, "utf-8")
+            const products = JSON.parse(contentTheFile)
+            let newId = 1
+            if(products.length > 0){
+                newId = products[products.length - 1].id + 1
+            }
+
+            const cart ={
+                id: newId,
+                product: []
+            }
 
 
-
-        const product ={
-            id: this.uniqueId,
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock
-        }
-
-        this.uniqueId++
-//Verify if the code are ready exist
-        const contentTheFile = await fs.promises.readFile(this.path, "utf-8")
-        const products = JSON.parse(contentTheFile)
-
-        if(products.some(productCode => productCode.code === code)){
-            console.log("The code are ready exist")
-        }
-        else{
             if(this.fileExist()){
                 const contentTheFile = await fs.promises.readFile(this.path, "utf-8")
                 const products = JSON.parse(contentTheFile)
-                products.push(product)
+                products.push(cart)
                 await fs.promises.writeFile(this.path, JSON.stringify(products, null, "\t"))
-                console.log("Product create")
+                return cart
             }
             else{
                 await fs.promises.writeFile(this.path, JSON.stringify([product], null, "\t"))
-                console.log("Product create")
-            }
+                return cart
             }
         }
 
@@ -61,6 +47,7 @@ class ProductManager{
             console.log(error.message)
         }
     }
+
 
 
 
@@ -73,14 +60,13 @@ class ProductManager{
                 
                 if(contentID === -1){
                     console.log("File not exist")
-                    return
                 }
                 else{
                     const updateProduct = {...content[contentID], ...updateCamp}
                     content[contentID] = updateProduct
 
-                    await fs.promises.writeFile(this.path, JSON.stringify(content, null, 2));
-                    return console.log(`Updated product with the ID: ${id}`)
+                    await fs.promises.writeFile(this.path, JSON.stringify(content, null, "\t"));
+                    return content
                 }
             }
             else{
@@ -91,6 +77,7 @@ class ProductManager{
             console.log(error.message)
         }
     }
+
 
 
 
@@ -112,6 +99,7 @@ class ProductManager{
 
 
 
+
     async getProductById(id){
         try {
             if(this.fileExist){
@@ -120,10 +108,7 @@ class ProductManager{
 
                 const contentID = content.find(c => c.id === id)
                 if(contentID){
-                    return console.log(`Product with the ID ${id}, is:`, contentID)
-                }
-                else{
-                    console.log(`Not exits a product with the id: ${id}`)
+                    return contentID
                 }
             }
             else{
@@ -134,6 +119,7 @@ class ProductManager{
             console.log(error.message)
         }
     }
+
 
 
 
@@ -166,4 +152,4 @@ class ProductManager{
 
 
 
-export default ProductManager
+export default CartManager
