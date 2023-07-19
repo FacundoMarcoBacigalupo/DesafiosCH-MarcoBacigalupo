@@ -95,6 +95,7 @@ class ProductManager{
                 const contentTheFile = await fs.promises.readFile(this.path, "utf-8")
                 const content = JSON.parse(contentTheFile)
                 return content
+
             }
             else{
                 console.log("The file not exist")

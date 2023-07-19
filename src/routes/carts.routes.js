@@ -8,7 +8,6 @@ const productService = new ProductManager("products.json")
 
 const router = Router()
 
-
 router.post("/", async(req, res) =>{
     try {
         const cartCreate = await cartService.addCart()
@@ -18,7 +17,7 @@ router.post("/", async(req, res) =>{
         res.json({status: "error", message: error.message})
     }
 })
-
+    
 
 
 router.get("/:cid", async(req, res) =>{

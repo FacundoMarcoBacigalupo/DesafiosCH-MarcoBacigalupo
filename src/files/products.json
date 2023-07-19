@@ -1,12 +1,23 @@
 [
 	{
 		"id": 3,
-		"title": "1231asgfasf2qs",
+		"title": "Juan",
 		"description": "El libro de JUAN es un libro realista",
 		"code": "30",
 		"price": 1000,
 		"status": true,
 		"stock": 10,
 		"category": "realista"
+	},
+	{
+		"id": 4,
+		"title": "title product",
+		"description": "description product",
+		"code": "260",
+		"price": "6000",
+		"status": true,
+		"stock": "4",
+		"category": "fantasy product",
+		"thumbnail": null
 	}
 ]

@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgb(14, 14, 14);
+    text-align: center;
+    margin-top: 50px;
+}
+
+h1{
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(189, 189, 189);
+    margin-bottom: 20px;
+}
+
+hr{
+    margin-bottom: 20px;
+}
+
+#containerProducts{
+    color: rgb(189, 189, 189);
+}
+
+div{
+    color: rgb(189, 189, 189);
+}
+
+p{
+    font-size: 18px;
+    font-weight: bold;
+}
