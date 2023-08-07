@@ -2,21 +2,25 @@ import express from 'express'
 import path from "path"
 import { engine } from "express-handlebars"
 import { __dirname } from './utils.js'
-import { Server } from 'socket.io'
+import { config } from './config/config.js'
+import { connectDB } from './config/dbConnection.js'
+import { chatModel } from './dao/models/chat.model.js'
 
 import { productsRouter } from './routes/products.routes.js'
 import { cartsRouter } from './routes/carts.routes.js'
 
+import { Server } from 'socket.io'
 import { viewRouters } from './routes/view.routes.js'
 
-import ProductManager from './dao/productsManager.js'
 
 
 
-const app = express()
-const port = 8080
 //Server http
+const app = express()
+const port = config.server.port
 const httpServer = app.listen(port, ()=> console.log("Listen Server in port:", port))
+
+
 
 //Middlewares
 app.use(express.static(path.join(__dirname, "/public")))
@@ -32,31 +36,39 @@ app.set('views', path.join(__dirname,"/views"));
 
 
 
-const io = new Server(httpServer)
+//Conexino a la base de datos
+connectDB()
+
 
 
 //Routes
+app.use(viewRouters)
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartsRouter)
-app.use(viewRouters)
+
 
 
 
 //Server socket
-io.on("connection", async(socket)=>{
-    const productService = new ProductManager("products.json")
-    const products = await productService.getProducts()
+const io = new Server(httpServer)
 
-    console.log("New cliente connected:", socket.id)
+io.on("connection",(socket)=>{
+    console.log("nuevo cliente conectado");
 
-    socket.emit("products", {products})
+    socket.on("authenticated", async(msg)=>{
+        const messages = await chatModel.find()
 
-    socket.on("newProduct", async({result}) =>{
-        try {
-            productService.addProduct(result.value.title, result.value.description, result.value.code, result.value.price, true, result.value.stock, result.value.category, null)
-        }
-        catch (error) {
-            console.log(error.message)
-        }
+        socket.emit("messageHistory", messages);
+        socket.broadcast.emit("newUser",msg);
+    });
+
+
+    socket.on("message", async(data)=>{
+        console.log("data", data);
+        await chatModel.create(data)
+        const messages = await chatModel.find()
+
+
+        io.emit("messageHistory", messages);
     })
 })

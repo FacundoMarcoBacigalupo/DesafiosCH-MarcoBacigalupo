@@ -1,5 +1,5 @@
 import fs from "fs"
-import {__dirname} from "../utils.js"
+import {__dirname} from "../../../utils.js"
 import path from "path"
 
 
@@ -129,16 +129,7 @@ class ProductManager{
         }
     }
 
-    deleteProduct(id) {
-        const productIndex = this.products.findIndex((p) => p.id === id);
-        if (productIndex === -1) {
-            console.error('Not found');
-            return;
-        }
 
-        this.products.splice(productIndex, 1);
-        this.saveProducts();
-    }
     async deleteProduct(id){
         try {
             if(this.fileExist()){

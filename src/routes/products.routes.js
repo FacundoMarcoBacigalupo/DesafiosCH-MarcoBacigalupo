@@ -1,24 +1,10 @@
 import { Router } from 'express'
-import ProductManager from '../dao/productsManager.js'
-
-const productService = new ProductManager("products.json")
+import { ProductsMongo } from '../dao/managers/mongo/productsMongo.js'
 
 
-//middlewear
-const validateCamps = (req, res, next) =>{
-    const productInfo = req.body
-    if(!productInfo.title || !productInfo.description || !productInfo.code || !productInfo.price || !productInfo.status || !productInfo.stock || !productInfo.category){
-        return res.json({status: "error", message: "Faltan completar campos"})
-    }
-    else{
-        next()
-    }
-}
-
+const productService = new ProductsMongo()
 
 const router = Router()
-
-
 
 //Get products
 router.get("/", async(req, res) =>{
@@ -61,7 +47,7 @@ router.get("/:pid", async(req, res) =>{
 
 
 //Post products
-router.post("/", validateCamps, async(req, res) =>{
+router.post("/", async(req, res) =>{
     try {
         const productInfo = req.body
         const productCreated = await productService.addProduct(productInfo)
@@ -75,7 +61,7 @@ router.post("/", validateCamps, async(req, res) =>{
 
 
 //Update products by ID
-router.put("/:pid", validateCamps, async(req, res) =>{
+router.put("/:pid", async(req, res) =>{
     try {
         let pid = parseInt(req.params.pid)
         let product = req.body

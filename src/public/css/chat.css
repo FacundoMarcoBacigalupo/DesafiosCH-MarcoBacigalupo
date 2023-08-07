@@ -1,0 +1,63 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+body{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(14, 14, 14);
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+
+
+h1{
+    font-size: 50px;
+    font-weight: bold;
+    color: rgb(189, 189, 189);
+    margin-bottom: 20px;
+}
+h1::first-letter{
+    font-size: 60px;
+}
+
+
+
+#chatBox{
+    font-size: 18px;
+    background-color: rgb(189, 189, 189);
+    color: rgb(14, 14, 14);
+    border: 2px solid rgb(37, 37, 37);
+    width: 60%;
+}
+
+
+
+#chat{
+    margin: auto;
+    color: rgb(189, 189, 189);
+    border: 1px solid rgb(189, 189, 189);
+    width: 60%;
+    margin-top: 20px;
+}
+
+
+
+p{
+    font-size: 18px;
+    margin: 20px;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+
+
+span{
+    font-size: 20px;
+    color: rgb(236, 236, 236);
+}
