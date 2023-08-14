@@ -6,12 +6,14 @@ const productService = new ProductsMongo()
 
 const router = Router()
 
+
+
 //Get products
 router.get("/", async(req, res) =>{
     try {
         let limit = parseInt(req.query.limit)
         const product = await productService.getProducts()
-        if(limit > 0){
+        if(limit){
             const result = product.filter(pro => pro.id <= limit)
             res.json({status:"success", data: result})
         }

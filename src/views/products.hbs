@@ -1,0 +1,33 @@
+<h1><strong>Products</strong></h1>
+<h4><strong>{{error}}</strong></h4>
+
+
+{{#if payload}}
+    <h4><strong>List of products</strong></h4>
+
+    <ul>
+        {{#each payload}}
+            <li>Title: {{this.title}}</li>
+            <li>Price: {{this.price}}</li>
+            <button onclick="addToCart(`{{this.id}}`)">Add to cart</button>
+        {{/each}}
+    </ul>
+
+
+    {{#if hasPrevPage}}
+        <a href={{prevLink}}>Prev</a>
+    {{/if}}
+
+    {{page}}
+
+    {{#if hasNextPage}}
+        <a href={{nextLink}}>Next</a>
+    {{/if}}
+
+
+{{else}}
+    <h4><strong>Not found products</strong></h4>
+{{/if}}
+
+
+<script src="/js/products.js"></script>

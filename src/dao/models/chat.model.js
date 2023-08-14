@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
-
-const chatCollection = "chat"
-
+import { chatCollection } from '../../constants/constants.js'
 
 const chatSchema = new mongoose.Schema({
     user:{
@@ -15,7 +13,6 @@ const chatSchema = new mongoose.Schema({
         required: true
     }
 })
-
 
 
 export const chatModel = mongoose.model(chatCollection, chatSchema)

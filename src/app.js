@@ -22,10 +22,12 @@ const httpServer = app.listen(port, ()=> console.log("Listen Server in port:", p
 
 
 
+
 //Middlewares
 app.use(express.static(path.join(__dirname, "/public")))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
 
 
 
@@ -49,7 +51,8 @@ app.use("/api/carts", cartsRouter)
 
 
 
-//Server socket
+
+//Server socket (Chat)
 const io = new Server(httpServer)
 
 io.on("connection",(socket)=>{

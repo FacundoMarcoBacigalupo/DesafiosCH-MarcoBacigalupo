@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2"
 
-
-const productCollection = "products"
-
+import { productCollection } from '../../constants/constants.js'
 
 const productSchema = new mongoose.Schema({
     title:{
@@ -23,7 +22,8 @@ const productSchema = new mongoose.Schema({
 
     stock:{
         type:Number,
-        required: true
+        required: true,
+        default:0
     },
 
     category:{
@@ -34,6 +34,6 @@ const productSchema = new mongoose.Schema({
     thumbnail:String
 })
 
-
+productSchema.plugin(mongoosePaginate)
 
 export const productsModel = mongoose.model(productCollection, productSchema)

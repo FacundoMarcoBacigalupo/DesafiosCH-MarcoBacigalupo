@@ -51,7 +51,7 @@ class CartManager{
 
 
 
-    async updateProduct(id, updateCamp){
+    async updateCart(id, updateCamp){
         try{
             if(this.fileExist){
                 const contentFile = await fs.promises.readFile(this.path, "utf-8")
