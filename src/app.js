@@ -8,9 +8,12 @@ import { chatModel } from './dao/models/chat.model.js'
 
 import { productsRouter } from './routes/products.routes.js'
 import { cartsRouter } from './routes/carts.routes.js'
+import { sessionsRouter } from './routes/sessions.routes.js'
 
 import { Server } from 'socket.io'
 import { viewRouters } from './routes/view.routes.js'
+import session from "express-session"
+import MongoStore from 'connect-mongo'
 
 
 
@@ -22,7 +25,6 @@ const httpServer = app.listen(port, ()=> console.log("Listen Server in port:", p
 
 
 
-
 //Middlewares
 app.use(express.static(path.join(__dirname, "/public")))
 app.use(express.json())
@@ -30,11 +32,22 @@ app.use(express.urlencoded({extended:true}))
 
 
 
-
 //configuracion de handlebars
 app.engine('.hbs', engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname,"/views"));
+
+
+
+//Configuracion de sessions
+app.use(session({
+    store:MongoStore.create({
+        mongoUrl:config.mongo.url
+    }),
+    secret:config.server.secretSession,
+    resave:true,
+    saveUninitialized:true
+}))
 
 
 
@@ -47,8 +60,7 @@ connectDB()
 app.use(viewRouters)
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartsRouter)
-
-
+app.use("/api/sessions", sessionsRouter)
 
 
 

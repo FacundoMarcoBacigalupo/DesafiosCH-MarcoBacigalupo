@@ -1,6 +1,7 @@
 import { Router, query } from "express";
 import { productService } from '../dao/servicesMongo.js'
 import { cartService } from '../dao/servicesMongo.js'
+import { checkUserAuthenticate, showLoginView } from "../dao/middlewares/auth.js"
 
 
 const router = Router()
@@ -19,7 +20,7 @@ router.get("/", async(req, res) =>{
 
 
 //Vista Productos
-router.get("/products", async(req, res) =>{
+router.get("/products", checkUserAuthenticate, async(req, res) =>{
     try {
         const { limit=10, page=1, stock, sort="asc", category } = req.query
 
@@ -76,6 +77,20 @@ router.get("/carts:cid", async(req, res) =>{
     catch (error) {
         res.send("<h3><strong> Error with get the Cart </strong></h3>")
     }
+})
+
+
+
+//Vista registro
+router.get("/register", showLoginView, (req, res) =>{
+    res.render("register")
+})
+
+
+
+//Vista login
+router.get("/login", showLoginView, (req, res) =>{
+    res.render("login")
 })
 
 

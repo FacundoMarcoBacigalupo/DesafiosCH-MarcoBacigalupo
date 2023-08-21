@@ -1,5 +1,14 @@
 <h1><strong>Products</strong></h1>
-<h4><strong>{{error}}</strong></h4>
+<h3><strong>{{error}}</strong></h3>
+
+
+<section>
+    <h3>Welcome{{user.first_name}}</h3>
+        <br/>
+    <h3>Email:{{user.email}}</h3>
+
+    <a href="/api/sessions/logout">Close session</a>
+</section>
 
 
 {{#if payload}}
