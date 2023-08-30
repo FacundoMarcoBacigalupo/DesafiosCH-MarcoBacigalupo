@@ -17,6 +17,7 @@ export class UsersMongo{
         }
     }
 
+
     async getUserByEmail(userEmail){
         try {
             let usEmail = this.model.findOne({email: userEmail})
@@ -47,6 +48,17 @@ export class UsersMongo{
         catch (error) {
             console.log(error.message)
             throw new Error("Error with get user with that ID")
+        }
+    }
+
+    async updateUser(userId, newUserInfo){
+        try {
+            const userUpdated = await this.model.findByIdAndUpdate(userId, newUserInfo,{new:true})
+            return userUpdated
+        }
+        catch (error) {
+            console.log(error.message)
+            throw new Error("Error with create user")
         }
     }
 }

@@ -1,64 +1,58 @@
 import { Router } from "express";
-import { usersService } from '../dao/servicesMongo.js'
-
+import passport from "passport";
 
 const router = Router()
 
 
 
-router.post("/register", async(req, res) =>{
-    try {
-        let registerForm = req.body
+//Ruta register
+router.post("/register", passport.authenticate("registerStrategy", {failureRedirect:"/api/sessions/failRegister"}), async(req, res) =>{
+    return res.render("login", {messagge:"Register user for login"})
+})
 
-        let user = await usersService.getUserByEmail(registerForm.email)
-        if(user){
-            res.render("register", {error:"User already exist"})
-        }
-
-        if(user.email === "adminCoder@coder.com" && user.password === "adminCod3r123"){
-            user.role.push("admin")
-            console.log(user)
-        }
-
-        await usersService.createUser(registerForm)
-        res.render("login", {messagge:"Register user for login"})
-    } catch (error) {
-        res.render("register", {error:error.message})
-    }
+router.get("/failRegister", async(req, res) =>{
+    return res.render("register", {error:error.message}, {style: "forms.css"})
 })
 
 
 
-router.post("/login", async(req, res) =>{
-    try {
-        let loginForm = req.body
 
-        let user = await usersService.getUserByEmail(loginForm.email)
-        if(!user){
-            res.render("login", {error:"User not register"})
-        }
+//Ruta login
+router.post("/login", passport.authenticate("loginStrategy",{failureRedirect:"/api/sessions/failLogin"}), async(req, res) =>{
+    return res.redirect("/")
+})
 
-        if(user.password === loginForm.password){
-            req.session.userInfo = {
-                first_name:user.first_name,
-                email:user.email
-            }
-            res.render("chat")
+router.get("/failLogin", async(req, res) =>{
+    return res.render("login", {error:"Failed login"}, {style: "forms.css"})
+})
+
+
+
+
+//Ruta github
+router.get("/loginGithub", passport.authenticate("githubStrategy"))
+
+router.get("/github-callback", passport.authenticate("githubStrategy"), {
+    failureRedirect: "/api/sessions/failRegister"
+}, (req, res) =>{
+    return res.render("/")
+})
+
+
+
+
+//Ruta logout
+router.get("/logout", (req, res) =>{
+    req.logOut(error =>{
+        if(error){
+            return res.render("login", {user: req.user, error:"Cannot close de session"}, {style: "forms.css"})
         }
         else{
-            res.render("login", {error:"Credencial are not validation"})
+            req.session.destroy(error =>{
+                if(error) return res.render("login", {user: req.session.userInfo, error:"Cannot close de session"}, {style: "forms.css"})
+                res.redirect("/")
+            })
         }
-    } catch (error) {
-        res.render("register", {error:error.message})
-    }
-})
-
-
-
-router.get("/logout", (req, res) =>{
-    req.session.destroy(error =>{
-        if(error) return res.render("login", {user: req.session.userInfo, error:"Cannot close de session"})
-        res.redirect("/")
     })
 })
 

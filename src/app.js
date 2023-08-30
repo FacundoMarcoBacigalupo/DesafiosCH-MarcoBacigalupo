@@ -14,7 +14,8 @@ import { Server } from 'socket.io'
 import { viewRouters } from './routes/view.routes.js'
 import session from "express-session"
 import MongoStore from 'connect-mongo'
-
+import passport from 'passport'
+import { initializePassport } from './config/passport.config.js'
 
 
 
@@ -51,6 +52,13 @@ app.use(session({
 
 
 
+//Configuracion de Passport
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
+
+
 //Conexino a la base de datos
 connectDB()
 
@@ -61,6 +69,7 @@ app.use(viewRouters)
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartsRouter)
 app.use("/api/sessions", sessionsRouter)
+
 
 
 

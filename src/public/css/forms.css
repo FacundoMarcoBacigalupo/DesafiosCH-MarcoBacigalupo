@@ -1,0 +1,39 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+body{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    background-color: rgb(14, 14, 14);
+    color: rgb(189, 189, 189);
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+
+form{
+    margin-top: 50px;
+}
+
+
+input{
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(14, 14, 14);
+    color: rgb(189, 189, 189);
+}
+
+
+button{
+    margin: 10px;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(189, 189, 189);
+    color: rgb(14, 14, 14);
+}

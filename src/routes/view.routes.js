@@ -82,15 +82,15 @@ router.get("/carts:cid", async(req, res) =>{
 
 
 //Vista registro
-router.get("/register", showLoginView, (req, res) =>{
-    res.render("register")
+router.get("/register", (req, res) =>{
+    res.render("register", {style: "forms.css"})
 })
 
 
 
 //Vista login
-router.get("/login", showLoginView, (req, res) =>{
-    res.render("login")
+router.get("/login", (req, res) =>{
+    res.render("login", {style: "forms.css"})
 })
 
 
