@@ -2,7 +2,7 @@ import passport from "passport";
 import local from "passport-local"
 import { usersService } from '../dao/servicesMongo.js'
 import { createHash, isValidPassword } from '../utils.js'
-import githubStrategy from "passport-github2"
+import GitHubStrategy from "passport-github2"
 import { config } from "./config.js";
 
 
@@ -10,24 +10,20 @@ const LocalStrategy = local.Strategy
 
 
 export const initializePassport = () =>{
+
     passport.serializeUser((user, done) =>{
         done(null, user._id)
     })
 
 
     passport.deserializeUser(async (id, done) =>{
-        try {
-            let user = await usersService.getUserById(id)
-            done(null, user)
-        }
-        catch (error) {
-            done(error)
-        }
+        let user = await usersService.getUserById(id)
+        done(null, user)
     })
 
 
 
-    passport.use("githubStrategy", new githubStrategy(
+    passport.use("githubStrategy", new GitHubStrategy(
         {
             clientID: config.github.clientID,
             clienteSecret: config.github.clienteSecret,
@@ -35,12 +31,14 @@ export const initializePassport = () =>{
         },
         async(accessToken, refreshToken, profile, done) =>{
             try {
-                const user = await usersService.getUserByEmail(profile.username)
+                console.log(profile)
+
+                let user = await usersService.getUserByEmail({email:profile._json.email})
                 if(!user){
                     const newUser ={
-                        first_name: "",
-                        email: profile.username,
-                        password: createHash(profile.id)
+                        first_name: profile._json.name,
+                        email: profile._json.email,
+                        password: ""
                     }
                     let userCreated = await usersService.createUser(newUser)
                     return done(null, userCreated)  

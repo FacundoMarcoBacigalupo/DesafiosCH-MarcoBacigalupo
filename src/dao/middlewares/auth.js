@@ -1,4 +1,4 @@
-export const checkUserAuthenticate = (req,res,next)=>{
+export const checkUserAuthenticate = (req, res, next) =>{
     if(req.user){
         next();
     } else {
@@ -9,7 +9,7 @@ export const checkUserAuthenticate = (req,res,next)=>{
 
 
 
-export const showLoginView = (req,res,next)=>{
+export const showLoginView = (req, res, next) =>{
     if(req.user){
         res.redirect("/");
     } else {

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { chatCollection } from '../../constants/constants.js'
+import { chatCollection } from '../../config/constants/constants.js'
 
 const chatSchema = new mongoose.Schema({
     user:{

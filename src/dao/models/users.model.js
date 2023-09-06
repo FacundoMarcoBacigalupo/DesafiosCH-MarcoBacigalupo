@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import { usersCollection } from '../../constants/constants.js'
+import { usersCollection } from '../../config/constants/constants.js'
 
 const userSchema = new mongoose.Schema({
     first_name:{
@@ -27,8 +27,15 @@ const userSchema = new mongoose.Schema({
         required:true,
     },
 
+    cartId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"carts"
+    },
+
     role:{
         type:String,
+        require:true,
+        enum:["user","admin"],
         default:"user"
     }
 })

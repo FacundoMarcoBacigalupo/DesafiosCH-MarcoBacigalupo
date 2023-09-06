@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import mongoosePaginate from 'mongoose-paginate-v2'
 
-import { productCollection } from "../../constants/constants.js"
-import { cartsCollection } from '../../constants/constants.js'
+import { productCollection } from "../../config/constants/constants.js"
+import { cartsCollection } from '../../config/constants/constants.js'
 
 const cartsSchema = new mongoose.Schema({
     product:{

@@ -1,9 +1,11 @@
-<h1><strong>register</strong></h1>
+<h1><strong>Register</strong></h1>
 <h3 style="color: brown">{{error}}</h3>
 
 
 <form method="post" action="/api/sessions/register">
     <input type="text" placeholder="Firts name" name="first_name" />
+        <br/>
+    <input type="text" placeholder="Last name" name="last_name" />
         <br/>
     <input type="email" placeholder="Email" name="email" />
         <br/>
@@ -15,5 +17,5 @@
 
 <hr>
 <a href="/api/sessions/loginGithub">
-    <button>Register with <strong>GitHub</strong></button>
+    <button>Register with GitHub</button>
 </a>

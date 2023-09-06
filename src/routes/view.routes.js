@@ -7,8 +7,23 @@ import { checkUserAuthenticate, showLoginView } from "../dao/middlewares/auth.js
 const router = Router()
 
 
-//Vista Chat
+
+//Vista Home
 router.get("/", async(req, res) =>{
+    try {
+        res.render("home", { style: "home.css" })
+    }
+    catch (error) {
+        res.render("home", { style: "home.css" }, {error: "Error with load home"})
+    }
+})
+
+
+
+
+
+//Vista Chat
+router.get("/chat", async(req, res) =>{
     try {
         res.render("chat", { style: "chat.css" })
     }
@@ -16,6 +31,7 @@ router.get("/", async(req, res) =>{
         res.send("<h3><strong> Error with get the Global Chat </strong></h3>")
     }
 })
+
 
 
 
@@ -66,6 +82,7 @@ router.get("/products", checkUserAuthenticate, async(req, res) =>{
 
 
 
+
 //Vista CartId
 router.get("/carts:cid", async(req, res) =>{
     try {
@@ -81,6 +98,7 @@ router.get("/carts:cid", async(req, res) =>{
 
 
 
+
 //Vista registro
 router.get("/register", (req, res) =>{
     res.render("register", {style: "forms.css"})
@@ -88,10 +106,20 @@ router.get("/register", (req, res) =>{
 
 
 
+
 //Vista login
 router.get("/login", (req, res) =>{
     res.render("login", {style: "forms.css"})
 })
+
+
+
+//Vista profile
+router.get("/profile", (req, res) =>{
+    let user = req.user
+    res.render("profile", {user}, {style: "forms.css"})
+})
+
 
 
 

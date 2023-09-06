@@ -7,11 +7,11 @@ const router = Router()
 
 //Ruta register
 router.post("/register", passport.authenticate("registerStrategy", {failureRedirect:"/api/sessions/failRegister"}), async(req, res) =>{
-    return res.render("login", {messagge:"Register user for login"})
+    return res.redirect("login", {messagge:"Register user for login"})
 })
 
 router.get("/failRegister", async(req, res) =>{
-    return res.render("register", {error:error.message}, {style: "forms.css"})
+    return res.send("<p>Can not register the user, <a href='/register'>Try again</a></p>");
 })
 
 
@@ -19,22 +19,21 @@ router.get("/failRegister", async(req, res) =>{
 
 //Ruta login
 router.post("/login", passport.authenticate("loginStrategy",{failureRedirect:"/api/sessions/failLogin"}), async(req, res) =>{
-    return res.redirect("/")
+    let user = req.user
+    return res.render("/profile", {style: "forms.css"})
 })
 
 router.get("/failLogin", async(req, res) =>{
-    return res.render("login", {error:"Failed login"}, {style: "forms.css"})
+    return res.send("<p>Can not login the user, <a href='/login'>Try again</a></p>");
 })
 
 
 
 
 //Ruta github
-router.get("/loginGithub", passport.authenticate("githubStrategy"))
+router.get("/github", passport.authenticate("githubStrategy",{scope:["user:email"]}), async(req, res) =>{})
 
-router.get("/github-callback", passport.authenticate("githubStrategy"), {
-    failureRedirect: "/api/sessions/failRegister"
-}, (req, res) =>{
+router.get("/githubcallback", passport.authenticate("githubStrategy", {failureRedirect:"/api/sessions/failRegister"}), async(req, res) =>{
     return res.render("/")
 })
 

@@ -8,7 +8,7 @@ export class UsersMongo{
 
     async createUser(user){
         try {
-            const createUser = await this.model.create(user)
+            const createUser = await this.model.create(user).lean()
             return createUser
         }
         catch (error) {
@@ -18,9 +18,9 @@ export class UsersMongo{
     }
 
 
-    async getUserByEmail(userEmail){
+    async getUserByEmail(email){
         try {
-            let usEmail = this.model.findOne({email: userEmail})
+            let usEmail = await this.model.findOne(email)
             if(usEmail){
                 return usEmail
             }
@@ -37,7 +37,7 @@ export class UsersMongo{
 
     async getUserById(userId){
         try {
-            const user = this.model.findById(userId)
+            let user = await this.model.findById(userId).lean()
             if(user){
                 return user
             }

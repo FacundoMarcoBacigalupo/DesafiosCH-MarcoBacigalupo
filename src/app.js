@@ -12,18 +12,17 @@ import { sessionsRouter } from './routes/sessions.routes.js'
 
 import { Server } from 'socket.io'
 import { viewRouters } from './routes/view.routes.js'
-import session from "express-session"
 import MongoStore from 'connect-mongo'
+import session from "express-session"
 import passport from 'passport'
 import { initializePassport } from './config/passport.config.js'
 
 
 
-//Server http
+
+
 const app = express()
 const port = config.server.port
-const httpServer = app.listen(port, ()=> console.log("Listen Server in port:", port))
-
 
 
 //Middlewares
@@ -33,10 +32,21 @@ app.use(express.urlencoded({extended:true}))
 
 
 
+//Server http
+const httpServer = app.listen(port, ()=> console.log("Listen Server in port:", port))
+
+
+
+//Conexino a la base de datos
+connectDB()
+
+
+
 //configuracion de handlebars
 app.engine('.hbs', engine({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname,"/views"));
+
 
 
 
@@ -52,15 +62,13 @@ app.use(session({
 
 
 
+
 //Configuracion de Passport
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
 
-
-//Conexino a la base de datos
-connectDB()
 
 
 

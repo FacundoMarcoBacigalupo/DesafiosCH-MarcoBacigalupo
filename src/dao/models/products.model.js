@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2"
 
-import { productCollection } from '../../constants/constants.js'
+import { productCollection } from '../../config/constants/constants.js'
 
 const productSchema = new mongoose.Schema({
     title:{
@@ -28,7 +28,8 @@ const productSchema = new mongoose.Schema({
 
     category:{
         type:String,
-        required: true
+        required: true,
+        enum:["Zapatilla", "Ropa"]
     },
 
     thumbnail:String
