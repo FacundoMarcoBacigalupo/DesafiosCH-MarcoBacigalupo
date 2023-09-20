@@ -1,14 +1,26 @@
+import dotenv from "dotenv";
+import path from "path"
+import { __dirname } from "../utils.js"
+
+
+const environment = "PRODUCTION" 
+
+dotenv.config({
+    path:environment === "development" ? path.join(__dirname,"../.env.development") : path.join(__dirname,"../.env.production")
+});
+
+
 export const config = {
     server:{
-        port:8080,
-        secretSession:"claveSuperSecreta"
+        port: process.env.PORT,
+        secretSession: process.env.SECRET_SESSION,
     },
     mongo:{
-        url:"mongodb+srv://Facundo:Metalero120@cluster0.lxndxty.mongodb.net/bcryptDB?retryWrites=true&w=majority"
+        url: process.env.MONGO_URL,
     },
     github:{
-        clientID: "Iv1.4fcd41fa39808e5d",
-        clienteSecret: "9faabfee560dc731420811af289bf098dde5569f",
-        callbackUrl: "http://localhost:8080/api/sessions/githubcallback"
+        clientId: process.env.CLIENT_ID,
+        clienteSecret: process.env.CLIENTE_SECRET,
+        callBackUrl: process.env.CALL_BACK_URL
     }
 }

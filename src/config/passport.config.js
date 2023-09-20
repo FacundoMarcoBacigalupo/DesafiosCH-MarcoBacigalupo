@@ -1,9 +1,9 @@
 import passport from "passport";
 import local from "passport-local"
-import { usersService } from '../dao/servicesMongo.js'
 import { createHash, isValidPassword } from '../utils.js'
 import GitHubStrategy from "passport-github2"
 import { config } from "./config.js";
+import { UsersService } from "../service/users.service.js";
 
 
 const LocalStrategy = local.Strategy
@@ -17,7 +17,7 @@ export const initializePassport = () =>{
 
 
     passport.deserializeUser(async (id, done) =>{
-        let user = await usersService.getUserById(id)
+        let user = await UsersService.getUserById(id)
         done(null, user)
     })
 
@@ -33,14 +33,14 @@ export const initializePassport = () =>{
             try {
                 console.log(profile)
 
-                let user = await usersService.getUserByEmail({email:profile._json.email})
+                let user = await UsersService.getUserByEmail({email:profile._json.email})
                 if(!user){
                     const newUser ={
                         first_name: profile._json.name,
                         email: profile._json.email,
                         password: ""
                     }
-                    let userCreated = await usersService.createUser(newUser)
+                    let userCreated = await UsersService.createUser(newUser)
                     return done(null, userCreated)  
                 }
                 else{
@@ -63,7 +63,7 @@ export const initializePassport = () =>{
         async(req, username, password, done) =>{
             try {
                 const { first_name } = req.body
-                const user = await usersService.getUserByEmail(username)
+                const user = await UsersService.getUserByEmail(username)
                 if(user){
                     return done(null, false)
                 }
@@ -73,7 +73,8 @@ export const initializePassport = () =>{
                     email: username,
                     password: createHash(password)
                 }
-                let userCreated = await usersService.createUser(newUser)
+
+                let userCreated = await UsersService.createUser(newUser)
                 return done(null, userCreated)
             }
             catch (error) {
@@ -90,7 +91,7 @@ export const initializePassport = () =>{
         },
         async(username, password, done) =>{
             try {
-                const user = await usersService.getUserByEmail(username)
+                const user = await UsersService.getUserByEmail(username)
                 if(!user){
                     done(null, false)
                 }
