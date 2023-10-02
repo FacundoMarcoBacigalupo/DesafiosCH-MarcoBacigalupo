@@ -1,22 +1,23 @@
-import express from 'express'
 import path from "path"
-import { engine } from "express-handlebars"
 import { __dirname } from './utils.js'
-import { config } from './config/config.js'
-import { connectDB } from './config/dbConnection.js'
+
+import express from 'express'
+import { engine } from "express-handlebars"
+import session from "express-session"
+
+import { Server } from 'socket.io'
 import { chatModel } from './dao/models/chat.model.js'
 
 import { productsRouter } from './routes/products.routes.js'
 import { cartsRouter } from './routes/carts.routes.js'
 import { sessionsRouter } from './routes/sessions.routes.js'
-
-import { Server } from 'socket.io'
 import { viewRouters } from './routes/view.routes.js'
-import MongoStore from 'connect-mongo'
-import session from "express-session"
-import passport from 'passport'
-import { initializePassport } from './config/passport.config.js'
 
+import MongoStore from 'connect-mongo'
+import passport from 'passport'
+
+import { config } from './config/config.js'
+import { initializePassport } from './config/passport.config.js'
 
 
 
@@ -33,12 +34,7 @@ app.use(express.urlencoded({extended:true}))
 
 
 //Server http
-const httpServer = app.listen(port, ()=> console.log("Listen Server in port:", port))
-
-
-
-//Conexino a la base de datos
-connectDB()
+const httpServer = app.listen(port, ()=> console.log("Listen Server in port: ", port))
 
 
 

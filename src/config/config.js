@@ -3,17 +3,19 @@ import path from "path"
 import { __dirname } from "../utils.js"
 
 
-const environment = "PRODUCTION" 
+
+let environment = "PRODUCTION" 
 
 dotenv.config({
-    path:environment === "development" ? path.join(__dirname,"../.env.development") : path.join(__dirname,"../.env.production")
+    path: environment === "DEVELOPMENT" ? path.join(__dirname,"../.env.development") : path.join(__dirname,"../.env.production")
 });
 
 
 export const config = {
     server:{
-        port: process.env.PORT,
+        port: process.env.PORT || 8080,
         secretSession: process.env.SECRET_SESSION,
+        persistense: process.env.PERSISTENSE
     },
     mongo:{
         url: process.env.MONGO_URL,

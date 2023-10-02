@@ -1,4 +1,4 @@
-import { cartDao } from "../dao/servicesMongo"
+import { cartDao } from "../dao/factory.js"
 
 
 export class CartsService{
@@ -17,7 +17,7 @@ export class CartsService{
     }
 
 
-    static deleteProduct = async(cartId) =>{
-        return await cartDao.deleteProduct(cartId)
+    static deleteCart = async(cartId) =>{
+        return await cartDao.deleteCart(cartId)
     }
 }

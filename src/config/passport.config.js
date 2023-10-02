@@ -68,10 +68,17 @@ export const initializePassport = () =>{
                     return done(null, false)
                 }
 
+                let role = "user"
+
+                if(username.endsWith("@coder.com")){
+                    role = "admin"
+                }
+
                 const newUser ={
                     first_name: first_name,
                     email: username,
-                    password: createHash(password)
+                    password: createHash(password),
+                    role: role
                 }
 
                 let userCreated = await UsersService.createUser(newUser)

@@ -112,7 +112,7 @@ export class CartsController{
                 return res.send({status: "error", message: "Cart no found"})
             }
 
-            await CartsService.deleteProduct(cartId)
+            await CartsService.deleteCart(cartId)
 
             res.send({status: "success", message: "Product deleted"})
         }

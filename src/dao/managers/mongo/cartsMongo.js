@@ -7,7 +7,7 @@ export class CartsMongo{
 
 
 //Agregar productos al carrito
-async addCart (){
+async addCart() {
     try {
         const cartCreated = await this.model.create({})
         return cartCreated
@@ -21,7 +21,7 @@ async addCart (){
 
 
 //Actualizar productos
-async updateCart (id, updateCamp){
+async updateCart (id, updateCamp) {
     try {
         const updateCart = await this.model.findByIdAndUpdate(id, updateCamp, {new:true})
         if(!updateCart){
@@ -38,7 +38,7 @@ async updateCart (id, updateCamp){
 
 
 //Obtener todos los productos
-    async getCart (){
+    async getCart() {
         try {
             const products = await this.model.find()
             return products
@@ -52,7 +52,7 @@ async updateCart (id, updateCamp){
 
 
 //Obtener un carrito por Id
-    async getCartById(id){
+    async getCartById(id) {
         try {
             const productId = await this.model.findById(id).lean()
             return productId
@@ -66,7 +66,7 @@ async updateCart (id, updateCamp){
 
 
 //Eliminar un product
-    async deleteProduct(id){
+    async deleteCart(id) {
         try {
             const product = this.getCartById(id)
             if(product){

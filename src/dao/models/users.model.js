@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-
 import { usersCollection } from '../../config/constants/constants.js'
+
 
 const userSchema = new mongoose.Schema({
     first_name:{
@@ -39,5 +39,6 @@ const userSchema = new mongoose.Schema({
         default:"user"
     }
 })
+
 
 export const usersModel = mongoose.model(usersCollection, userSchema)

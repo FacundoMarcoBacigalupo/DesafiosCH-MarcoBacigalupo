@@ -51,7 +51,7 @@ async addProduct (productInfo){
 
 
 //Actualizar un producto
-async updateProduct (id, updateCamp){
+async updateProduct(id, updateCamp) {
     try {
         const updateProduct = await this.model.findByIdAndUpdate(id, updateCamp, {new:true})
         if(!updateProduct){

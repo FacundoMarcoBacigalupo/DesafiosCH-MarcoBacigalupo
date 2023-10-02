@@ -1,9 +1,9 @@
 import fs from "fs"
-import {__dirname} from "../../../utils.js"
+import { __dirname } from "../../../utils.js"
 import path from "path"
 
 
-class ProductManager{
+export class ProductFile{
     constructor(fileName){
         this.path = path.join(__dirname, `/files/${fileName}`)
     }
@@ -58,7 +58,50 @@ class ProductManager{
 
 
 
-    async updateProduct(id, updateCamp){
+    async getProducts(){
+        try{
+            if(this.fileExist){
+                const contentTheFile = await fs.promises.readFile(this.path, "utf-8")
+                const content = JSON.parse(contentTheFile)
+                return content
+
+            }
+            else{
+                console.log("The file not exist")
+            }
+        }
+        catch (error){
+            console.log(error.message)
+        }
+    }
+
+
+
+
+        async getProductById(id){
+            try {
+                if(this.fileExist){
+                    const contentFile = await fs.promises.readFile(this.path, "utf-8")
+                    const content = JSON.parse(contentFile)
+    
+                    const contentID = content.find(c => c.id === id)
+                    if(contentID){
+                        return contentID
+                    }
+                }
+                else{
+                    console.log("The file not exist")
+                }
+            } 
+            catch (error){
+                console.log(error.message)
+            }
+        }
+
+
+
+
+    async updateProduct(id, updateCamp) {
         try{
             if(this.fileExist){
                 const contentFile = await fs.promises.readFile(this.path, "utf-8")
@@ -89,47 +132,6 @@ class ProductManager{
 
 
 
-    async getProducts(){
-        try{
-            if(this.fileExist){
-                const contentTheFile = await fs.promises.readFile(this.path, "utf-8")
-                const content = JSON.parse(contentTheFile)
-                return content
-
-            }
-            else{
-                console.log("The file not exist")
-            }
-        }
-        catch (error){
-            console.log(error.message)
-        }
-    }
-
-
-
-
-    async getProductById(id){
-        try {
-            if(this.fileExist){
-                const contentFile = await fs.promises.readFile(this.path, "utf-8")
-                const content = JSON.parse(contentFile)
-
-                const contentID = content.find(c => c.id === id)
-                if(contentID){
-                    return contentID
-                }
-            }
-            else{
-                console.log("The file not exist")
-            }
-        } 
-        catch (error){
-            console.log(error.message)
-        }
-    }
-
-
     async deleteProduct(id){
         try {
             if(this.fileExist()){
@@ -155,8 +157,5 @@ class ProductManager{
             console.log(error.message)
         }
     }
+
 }
-
-
-
-export default ProductManager

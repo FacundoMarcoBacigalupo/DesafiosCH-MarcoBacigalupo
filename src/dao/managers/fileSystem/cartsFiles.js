@@ -1,9 +1,9 @@
 import fs from "fs"
-import {__dirname} from "../../../utils.js"
+import { __dirname } from "../../../utils.js"
 import path from "path"
 
 
-class CartManager{
+export class CartFile{
     constructor(fileName){
         this.path = path.join(__dirname, `/files/${fileName}`)
     }
@@ -81,7 +81,7 @@ class CartManager{
 
 
 
-    async getProducts(){
+    async getCart(){
         try{
             if(this.fileExist){
                 const contentTheFile = await fs.promises.readFile(this.path, "utf-8")
@@ -100,7 +100,7 @@ class CartManager{
 
 
 
-    async getProductById(id){
+    async getCartById(id) {
         try {
             if(this.fileExist){
                 const contentFile = await fs.promises.readFile(this.path, "utf-8")
@@ -123,7 +123,7 @@ class CartManager{
 
 
 
-    async deleteProduct(id){
+    async deleteCart(id) {
         try {
             if(this.fileExist()){
                 const contentFile = await fs.promises.readFile(this.path, "utf-8")
@@ -148,8 +148,4 @@ class CartManager{
             console.log(error.message)
         }
     }
-}
-
-
-
-export default CartManager
+} 

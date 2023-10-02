@@ -1,4 +1,4 @@
-import { productDao } from "../dao/servicesMongo"
+import { productDao } from "../dao/factory.js"
 
 
 export class ProductService{
@@ -12,7 +12,7 @@ export class ProductService{
     }
 
 
-    static createProduct = async(productInfo) =>{
+    static addProduct = async(productInfo) =>{
         return await productDao.addProduct(productInfo)
     }
 

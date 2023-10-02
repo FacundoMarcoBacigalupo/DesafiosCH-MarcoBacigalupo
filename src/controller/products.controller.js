@@ -1,4 +1,3 @@
-import { productDao } from "../dao/servicesMongo"
 import { ProductService } from "../service/products.service.js"
 
 
@@ -42,7 +41,7 @@ export class ProductsController{
     static createProduct = async(req, res) =>{
         try {
             const productInfo = req.body
-            const productCreated = await ProductService.createProduct(productInfo) 
+            const productCreated = await ProductService.addProduct(productInfo) 
             res.json({status:"success", data: productCreated, message:"Created product"})
         }
         catch (error) {

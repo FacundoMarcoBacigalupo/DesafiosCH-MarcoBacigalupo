@@ -1,14 +1,14 @@
-import { usersDao } from "../dao/servicesMongo"
+import { usersDao } from "../dao/factory.js"
 
 
 export class UsersService{
-    static getUserByEmail = async(email) =>{
-        return await usersDao.getUserByEmail(email)
+    static createUser = async(newUser) =>{
+        return await usersDao.createUser(newUser)
     }
 
 
-    static createUser = async(newUser) =>{
-        return await usersDao.createUser(newUser)
+    static getUserByEmail = async(email) =>{
+        return await usersDao.getUserByEmail(email)
     }
 
 

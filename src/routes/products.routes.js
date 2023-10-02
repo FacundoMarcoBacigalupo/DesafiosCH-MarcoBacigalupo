@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { ProductsController } from '../controller/products.controller.js'
+import { checkRole, checkUserAuthenticate } from '../dao/middlewares/auth.js'
 
 const router = Router()
 
@@ -14,15 +15,16 @@ router.get("/:pid", ProductsController.getProductsById)
 
 
 //Post products
-router.post("/", ProductsController.createProduct)
+router.post("/", checkUserAuthenticate, checkRole(["admin"]), ProductsController.createProduct)
 
 
 //Update products by ID
-router.put("/:pid", ProductsController.updateProduct)
+router.put("/:pid", checkUserAuthenticate, checkRole(["admin"]), ProductsController.updateProduct)
 
 
 //Delete products by ID
-router.delete("/:pid", ProductsController.deleteProduct)
+router.delete("/:pid", checkUserAuthenticate, checkRole(["admin"]), ProductsController.deleteProduct)
+
 
 
 export { router as productsRouter }
