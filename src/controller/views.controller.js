@@ -1,6 +1,6 @@
 import { query } from "express";
-import { productDao } from '../dao/servicesMongo.js';
-import { cartDao } from '../dao/servicesMongo.js';
+import { productDao } from '../dao/factory.js';
+import { cartDao } from '../dao/factory.js';
 
 
 

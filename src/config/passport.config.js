@@ -25,9 +25,9 @@ export const initializePassport = () =>{
 
     passport.use("githubStrategy", new GitHubStrategy(
         {
-            clientID: config.github.clientID,
+            clientID: config.github.clientId || "Iv1.4fcd41fa39808e5d",
             clienteSecret: config.github.clienteSecret,
-            callbackUrl: config.github.callbackUrl
+            callbackUrl: config.github.callBackUrl || "http://localhost:8080/api/sessions/githubcallback"
         },
         async(accessToken, refreshToken, profile, done) =>{
             try {

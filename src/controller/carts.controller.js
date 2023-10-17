@@ -25,14 +25,14 @@ export class CartsController{
     
     
             const productCart = cart.product
-            const productInCart = productCart.find( (cartProduct) => cartProduct.product === productId)
+            const productInCart = productCart.find( (cartProduct) => cartProduct.productId === productId)
 
             if(productInCart){
                 productInCart.quantity++
             }
             else{
                 const newProduct = {
-                    product: productId,
+                    productId: productId,
                     quantity: 1
                 }
                 cart.product.push(newProduct)

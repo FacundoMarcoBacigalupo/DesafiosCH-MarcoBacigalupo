@@ -7,33 +7,33 @@ export class CartsMongo{
 
 
 //Agregar productos al carrito
-async addCart() {
-    try {
-        const cartCreated = await this.model.create({})
-        return cartCreated
+    async addCart() {
+        try {
+            const cartCreated = await this.model.create({})
+            return cartCreated
+        }
+        catch (error) {
+            console.log(error.message)
+            throw new Error("Error with created the product")
+        }
     }
-    catch (error) {
-        console.log(error.message)
-        throw new Error("Error with created the product")
-    }
-}
 
 
 
 //Actualizar productos
-async updateCart (id, updateCamp) {
-    try {
-        const updateCart = await this.model.findByIdAndUpdate(id, updateCamp, {new:true})
-        if(!updateCart){
-            throw new Error("Product not exist")
+    async updateCart (id, updateCamp) {
+        try {
+            const updateCart = await this.model.findByIdAndUpdate(id, updateCamp, {new:true})
+            if(!updateCart){
+                throw new Error("Product not exist")
+            }
+            return updateCart
         }
-        return updateCart
+        catch (error) {
+            console.log(error.message)
+            throw new Error("Error with get products")
+        }
     }
-    catch (error) {
-        console.log(error.message)
-        throw new Error("Error with get products")
-    }
-}
 
 
 

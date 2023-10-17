@@ -7,6 +7,7 @@ let persistense = config.server.persistense
 let cartDao;
 let productDao;
 let usersDao;
+let ticketsDao;
 
 
 switch(persistense) {
@@ -17,10 +18,13 @@ switch(persistense) {
         const { CartsMongo } = await import("./managers/mongo/cartsMongo.js")
         const { ProductsMongo } = await import("./managers/mongo/productsMongo.js")
         const { UsersMongo } = await import("./managers/mongo/usersMongo.js")
+        const { TicketsMongo } = await import("./managers/mongo/tickets.mongo.js")
+
 
         cartDao = new CartsMongo()
         productDao = new ProductsMongo()
         usersDao = new UsersMongo()
+        ticketsDao = new TicketsMongo()
     break;
 
 
@@ -34,4 +38,4 @@ switch(persistense) {
 };
 
 
-export { cartDao, productDao, usersDao }
+export { cartDao, productDao, usersDao, ticketsDao }

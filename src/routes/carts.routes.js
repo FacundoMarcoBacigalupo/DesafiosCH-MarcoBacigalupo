@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { CartsController } from '../controller/carts.controller.js'
 import { checkRole, checkUserAuthenticate } from '../dao/middlewares/auth.js'
+import { TicketsController } from '../controller/tickets.controller.js'
 
 
 const router = Router()
@@ -38,6 +39,8 @@ router.put("/:cid", checkUserAuthenticate, checkRole(["admin"]), CartsController
 //Update product in cart
 router.put("/:cid/products/:pid", checkUserAuthenticate, checkRole(["admin"]), CartsController.updateProductInCartById)
 
+
+router.post("/:cid/purchase", TicketsController.createTicket)
 
 
 

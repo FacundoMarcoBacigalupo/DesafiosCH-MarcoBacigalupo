@@ -12,12 +12,18 @@ import { productsRouter } from './routes/products.routes.js'
 import { cartsRouter } from './routes/carts.routes.js'
 import { sessionsRouter } from './routes/sessions.routes.js'
 import { viewRouters } from './routes/view.routes.js'
+import { mockingproducts } from "./routes/mockingproducts.routes.js"
 
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
 
 import { config } from './config/config.js'
 import { initializePassport } from './config/passport.config.js'
+import { userRouter } from "./routes/users.routes.js"
+
+import { errorHandler } from "./dao/middlewares/errorHandler.js"
+
+
 
 
 
@@ -70,9 +76,16 @@ app.use(passport.session())
 
 //Routes
 app.use(viewRouters)
+
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartsRouter)
 app.use("/api/sessions", sessionsRouter)
+app.use("/api/users", userRouter)
+app.use("/mockingproducts", mockingproducts)
+
+app.use(errorHandler)
+
+
 
 
 

@@ -8,7 +8,13 @@ const router = Router()
 
 
 //Vista Home
-router.get("/", ViewsController.renderHome)
+router.get("/", async(req, res) =>{
+    try {
+        res.render("home", { style: "home.css" })
+    }
+    catch (error) {
+        res.render("home", { style: "home.css" }, {error: "Error with load home"})
+    }})
 
 
 //Vista Chat

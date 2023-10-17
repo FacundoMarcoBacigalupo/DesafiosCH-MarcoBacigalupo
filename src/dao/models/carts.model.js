@@ -8,8 +8,14 @@ const cartsSchema = new mongoose.Schema({
     product:{
         type:[
             {
-                type:mongoose.Schema.Types.ObjectId,
-                ref:productCollection
+                quantity:{
+                    type:Number,
+                    default:1
+                },
+                productId:{
+                    type:mongoose.Schema.Types.ObjectId,
+                    ref:productCollection
+                }
             }
         ],
 

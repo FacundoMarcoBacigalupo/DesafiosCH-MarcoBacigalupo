@@ -14,11 +14,11 @@ dotenv.config({
 export const config = {
     server:{
         port: process.env.PORT || 8080,
-        secretSession: process.env.SECRET_SESSION,
+        secretSession: process.env.SECRET_SESSION || "clavDevelopmentSecret",
         persistense: process.env.PERSISTENSE
     },
     mongo:{
-        url: process.env.MONGO_URL,
+        url: process.env.MONGO_URL || "mongodb+srv://Facundo:Metalero120@cluster0.lxndxty.mongodb.net/developmentDB?retryWrites=true&w=majority",
     },
     github:{
         clientId: process.env.CLIENT_ID,
