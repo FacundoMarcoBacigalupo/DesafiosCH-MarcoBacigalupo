@@ -10,9 +10,9 @@ export class ViewsController{
             res.render("home", { style: "home.css" })
         }
         catch (error) {
-            res.render("home", { style: "home.css" }, {error: "Error with load home"})
+            res.send("<h3><strong> Error with load home </strong></h3>")
         }
-    }
+    };
 
 
     static renderChat = async(req, res) =>{
@@ -22,7 +22,7 @@ export class ViewsController{
         catch (error) {
             res.send("<h3><strong> Error with get the Global Chat </strong></h3>")
         }
-    }
+    };
 
 
     static renderProducts = async(req, res) =>{
@@ -67,7 +67,7 @@ export class ViewsController{
         catch (error) {
             res.render("products", { style: "products.css" }, {error: "Dates not render"})
         }
-    }
+    };
 
 
     static renderCartId = async(req, res) =>{
@@ -80,21 +80,33 @@ export class ViewsController{
         catch (error) {
             res.send("<h3><strong> Error with get the Cart </strong></h3>")
         }
-    }
+    };
 
 
     static renderRegister = (req, res) =>{
         res.render("register", {style: "forms.css"})
-    }
+    };
 
 
     static renderLogin = (req, res) =>{
         res.render("login", {style: "forms.css"})
-    }
+    };
 
 
     static renderProfile = (req, res) =>{
         let user = req.user
         res.render("profile", {user}, {style: "forms.css"})
+    };
+
+
+    static renderForgotPassword = (req, res) =>{
+        res.render("forgotPassword")
     }
-}
+
+
+    static renderReserPassword = (req, res) =>{
+        const token = req.query.token;
+
+        res.render("resetPassword", {token})
+    }
+};

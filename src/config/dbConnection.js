@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import { config } from './config.js'
+import mongoose from "mongoose";
+import { config } from './config.js';
 
 
 export const connectDB = async() =>{
@@ -10,4 +10,4 @@ export const connectDB = async() =>{
     catch (error) {
         console.log("Error with the DataBase", error.message)
     }
-}
+};

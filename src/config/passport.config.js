@@ -1,7 +1,7 @@
 import passport from "passport";
 import local from "passport-local"
-import { createHash, isValidPassword } from '../utils.js'
 import GitHubStrategy from "passport-github2"
+import { createHash, isValidPassword } from '../utils.js'
 import { config } from "./config.js";
 import { UsersService } from "../service/users.service.js";
 
@@ -10,7 +10,6 @@ const LocalStrategy = local.Strategy
 
 
 export const initializePassport = () =>{
-
     passport.serializeUser((user, done) =>{
         done(null, user._id)
     })
@@ -32,7 +31,6 @@ export const initializePassport = () =>{
         async(accessToken, refreshToken, profile, done) =>{
             try {
                 console.log(profile)
-
                 let user = await UsersService.getUserByEmail({email:profile._json.email})
                 if(!user){
                     const newUser ={

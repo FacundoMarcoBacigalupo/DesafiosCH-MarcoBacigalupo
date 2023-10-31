@@ -12,7 +12,8 @@ import { productsRouter } from './routes/products.routes.js'
 import { cartsRouter } from './routes/carts.routes.js'
 import { sessionsRouter } from './routes/sessions.routes.js'
 import { viewRouters } from './routes/view.routes.js'
-import { mockingproducts } from "./routes/mockingproducts.routes.js"
+import { mockingProductsRouter } from "./routes/mockingproducts.routes.js"  
+import { loggerTestRouter } from "./routes/loggerTest.routes.js"
 
 import MongoStore from 'connect-mongo'
 import passport from 'passport'
@@ -22,7 +23,6 @@ import { initializePassport } from './config/passport.config.js'
 import { userRouter } from "./routes/users.routes.js"
 
 import { errorHandler } from "./dao/middlewares/errorHandler.js"
-
 
 
 
@@ -52,6 +52,9 @@ app.set('views', path.join(__dirname,"/views"));
 
 
 
+//Configuracion de Passport
+initializePassport()
+
 //Configuracion de sessions
 app.use(session({
     store:MongoStore.create({
@@ -62,29 +65,24 @@ app.use(session({
     saveUninitialized:true
 }))
 
-
-
-
 //Configuracion de Passport
-initializePassport()
-app.use(passport.initialize())
 app.use(passport.session())
+app.use(passport.initialize())
 
 
 
 
 
 //Routes
-app.use(viewRouters)
-
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartsRouter)
 app.use("/api/sessions", sessionsRouter)
 app.use("/api/users", userRouter)
-app.use("/mockingproducts", mockingproducts)
+app.use("/mockingproducts", mockingProductsRouter)
+app.use("/loggerTest", loggerTestRouter)
 
+app.use(viewRouters)
 app.use(errorHandler)
-
 
 
 
@@ -105,7 +103,7 @@ io.on("connection",(socket)=>{
 
 
     socket.on("message", async(data)=>{
-        console.log("data", data);
+        console.log("data:", data);
         await chatModel.create(data)
         const messages = await chatModel.find()
 

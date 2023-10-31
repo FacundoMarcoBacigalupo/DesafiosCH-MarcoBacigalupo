@@ -2,7 +2,7 @@ import { Router } from "express";
 import { CustomError } from "../service/errors/CustomError.service.js";
 import { generateUserErrorInfo } from "../service/errors/Info.service.js";
 import { EErrors } from "../service/errors/Enums.service.js";
-import { invalidParamMessage } from '../service/errors/invalidParamUser.service.js'
+import { invalidParamMessage } from '../service/errors/invalidParamUser.service.js';
 
 
 const router = Router()

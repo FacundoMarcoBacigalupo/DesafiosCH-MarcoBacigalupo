@@ -1,4 +1,4 @@
-import  { ticketsDao } from '../dao/factory.js'
+import  { ticketsDao } from '../dao/factory.js';
 
 
 export class TicketsService{

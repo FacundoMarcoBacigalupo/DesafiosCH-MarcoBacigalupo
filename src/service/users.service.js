@@ -1,4 +1,4 @@
-import { usersDao } from "../dao/factory.js"
+import { usersDao } from "../dao/factory.js";
 
 
 export class UsersService{
@@ -14,5 +14,10 @@ export class UsersService{
 
     static getUserById = async(id) =>{
         return await usersDao.getUserById(id)
+    }
+
+
+    static updateUser = async(userId, newUserInfo) =>{
+        return await usersDao.updateUser(userId, newUserInfo)
     }
 }

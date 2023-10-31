@@ -32,7 +32,12 @@ const productSchema = new mongoose.Schema({
         enum:["Zapatilla", "Ropa"]
     },
 
-    thumbnail:String
+    thumbnail:String,
+
+    owner:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"users"
+    }
 })
 
 

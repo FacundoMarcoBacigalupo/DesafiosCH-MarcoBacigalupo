@@ -1,8 +1,9 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { faker } from '@faker-js/faker';
-
+import jwt from "jsonwebtoken"
+import { config } from './config/config.js';
 
 
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -10,14 +11,14 @@ export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 
 export const createHash = (password) =>{
-    return bcrypt.hashSync(password, bcrypt.genSaltSync())
-}
+    return bcrypt.hashSync(password, bcrypt.genSaltSync());
+};
 
 
 
 export const isValidPassword = (userDB, password) =>{
-    return bcrypt.compareSync(password, userDB.password)
-}
+    return bcrypt.compareSync(password, userDB.password);
+};
 
 
 
@@ -31,5 +32,17 @@ export const generateProducts = () =>{
         stock: faker.number.int({max: 100}),
         category: faker.lorem.word(),
         thumbnail: faker.image.url()
+    };
+};
+
+
+
+export const validateToken = async(token) =>{
+    try {
+        const info = jwt.verify(token, config.gmail.gmailSecretToken)
+        return info.email
+    } catch (error) {
+        console.log("Error with the token",error.message)
+        return null
     }
 }

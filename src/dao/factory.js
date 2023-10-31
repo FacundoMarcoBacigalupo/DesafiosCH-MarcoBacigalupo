@@ -1,7 +1,7 @@
-import { config } from "../config/config.js"
+import { config } from "../config/config.js";
 
 
-let persistense = config.server.persistense
+let persistense = config.server.persistense;
 
 
 let cartDao;

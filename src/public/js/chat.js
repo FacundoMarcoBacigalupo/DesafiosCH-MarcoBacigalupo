@@ -51,6 +51,3 @@ socketClient.on("newUser", (data)=>{
         });
     }
 });
-
-
-socketClient.emit("deleteMessage", (message))

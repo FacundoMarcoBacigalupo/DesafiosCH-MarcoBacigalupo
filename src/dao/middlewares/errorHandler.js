@@ -37,6 +37,6 @@ export const errorHandler = (error, req, res, next) =>{
 
 
         default:
-            res.status(500).json({status:"Error", error:"Unknown error"})
+            res.status(500).json({status:"Error", error:error.message})
     }
 }

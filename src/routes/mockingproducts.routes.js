@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { MockingProducts } from '../controller/mockingproducts.controller.js'
 
-const router = Router()
+const router = Router();
 
 
-router.get("/", MockingProducts.createProducts)
+router.get("/", MockingProducts.createProducts);
 
 
-export{ router as mockingproducts }
+export{ router as mockingProductsRouter };

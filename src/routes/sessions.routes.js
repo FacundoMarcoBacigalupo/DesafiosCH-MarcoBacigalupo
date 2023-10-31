@@ -29,6 +29,8 @@ router.get("/githubcallback", passport.authenticate("githubStrategy", {failureRe
 router.get("/logout", SessionController.redirectLogout)
 
 
+router.post("/forgot-password", SessionController.forgotPassword)
 
+router.post("/reset-password", SessionController.resetPassword)
 
 export { router as sessionsRouter }
