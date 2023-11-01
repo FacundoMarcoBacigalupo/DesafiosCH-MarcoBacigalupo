@@ -40,7 +40,9 @@ export class ProductsController{
 
     static createProduct = async(req, res) =>{
         try {
-            const productInfo = req.body
+            const productInfo = req.body;
+            productInfo.owner = req.user._id;
+
             const productCreated = await ProductService.addProduct(productInfo) 
             res.json({status:"success", data: productCreated, message:"Created product"})
         }
@@ -71,14 +73,14 @@ export class ProductsController{
 
     static deleteProduct = async(req, res) =>{
         try {
-            let pid = parseInt(req.params.pid)
-            let deleteProduct = await ProductService.deleteProduct(pid)
-    
-            if(!deleteProduct){
-                res.json({status:"error", message: "Not exist product with that ID"})
+            let productID = parseInt(req.params.pid)
+            let product = ProductService.getProductById(pid)
+            if(req.user.role === "premium" && product.owner.toString() === req.user._id.toString() || req.user.role === "admin"){
+                await ProductService.deleteProduct(productID)
+                res.json({status: "success", message:"Product eliminated"})
             }
             else{
-                res.json({status: "success", data: deleteProduct})
+                res.json({status:"error", message: "You don't have permissions"})
             }
         }
         catch (error) {

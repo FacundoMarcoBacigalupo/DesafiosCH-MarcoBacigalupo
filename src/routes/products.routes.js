@@ -15,15 +15,15 @@ router.get("/:pid", ProductsController.getProductsById)
 
 
 //Post products
-router.post("/", checkUserAuthenticate, checkRole(["admin"]), ProductsController.createProduct)
+router.post("/", checkUserAuthenticate, checkRole(["admin", "premium"]), ProductsController.createProduct)
 
 
 //Update products by ID
-router.put("/:pid", checkUserAuthenticate, checkRole(["admin"]), ProductsController.updateProduct)
+router.put("/:pid", checkUserAuthenticate, checkRole(["admin", "premium"]), ProductsController.updateProduct)
 
 
 //Delete products by ID
-router.delete("/:pid", checkUserAuthenticate, checkRole(["admin"]), ProductsController.deleteProduct)
+router.delete("/:pid", checkUserAuthenticate, checkRole(["admin", "premium"]), ProductsController.deleteProduct)
 
 
 

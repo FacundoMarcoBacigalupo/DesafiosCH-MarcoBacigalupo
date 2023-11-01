@@ -59,8 +59,9 @@ export class SessionController{
             const token = generateEmailWithToken(email, 3*60)
             await emailRecovery(req, email, token)
 
-            res.send("email send, back to the <a>home</a>")
+            res.send("email send, back to the <a href='/'>home</a>")
         } catch (error) {
+            console.log(error.message)
             res.send({status:"Error", message:"Can not restore the password"})
         }
     }

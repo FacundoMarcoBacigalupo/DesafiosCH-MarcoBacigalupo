@@ -20,12 +20,12 @@ export class UsersMongo{
 
     async getUserByEmail(email){
         try {
-            let userEmail = await this.model.findOne({email})
+            let userEmail = await this.model.findOne({email}).lean()
             if(userEmail){
                 return userEmail
             }
             else{
-                null
+                return null
             }
         }
         catch (error) {
