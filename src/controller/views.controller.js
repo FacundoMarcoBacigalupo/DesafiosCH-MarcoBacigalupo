@@ -10,7 +10,7 @@ export class ViewsController{
             res.render("home", { style: "home.css" })
         }
         catch (error) {
-            res.send("<h3><strong> Error with load home </strong></h3>")
+            res.send("<h3><strong>Error with load home</strong></h3>")
         }
     };
 
@@ -20,7 +20,7 @@ export class ViewsController{
             res.render("chat", { style: "chat.css" })
         }
         catch (error) {
-            res.send("<h3><strong> Error with get the Global Chat </strong></h3>")
+            res.send("<h3><strong>Error with get the Global Chat</strong></h3>")
         }
     };
 
@@ -37,7 +37,7 @@ export class ViewsController{
             const sortValue = sort === "asc" ? 1 : -1
     
             if(stockValue){
-                query = {category:{$gte:category}, stock: {$gte:stockValue}}
+                query = {category:{$gte:category}, stock:{$gte:stockValue}}
             }
     
             const result = await productDao.getProductsPaginate(query, {
@@ -62,10 +62,10 @@ export class ViewsController{
                 nextLink: result.hasNextPage ? `${baseUrl.replace(`page=${result.page}`, `page=${result.nextPage}`)}` : null
             }
     
-            res.render("products", resultProductsView, { style: "products.css" })
+            res.render("products", {resultProductsView}, { style: "products.css" })
         }
         catch (error) {
-            res.render("products", { style: "products.css" }, {error: "Dates not render"})
+            res.render("products", {error: "Dates not render"}, { style: "products.css" },)
         }
     };
 

@@ -1,6 +1,5 @@
 import { cartDao } from "../dao/factory.js";
 
-
 export class CartsService{
     static createCart = async() =>{
         return await cartDao.addCart()

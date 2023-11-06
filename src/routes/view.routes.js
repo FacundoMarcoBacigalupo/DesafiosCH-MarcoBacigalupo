@@ -6,7 +6,6 @@ import { ViewsController } from "../controller/views.controller.js";
 const router = Router();
 
 
-
 //Vista Home
 router.get("/", ViewsController.renderHome);
 

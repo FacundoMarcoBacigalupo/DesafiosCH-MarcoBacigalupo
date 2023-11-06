@@ -1,7 +1,6 @@
 import { EErrors } from "../../service/errors/Enums.service.js";
 
 
-
 export const errorHandler = (error, req, res, next) =>{
     switch(error.code){
         case EErrors.AUTH_ERROR:

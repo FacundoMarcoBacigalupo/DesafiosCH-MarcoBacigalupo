@@ -1,0 +1,159 @@
+paths:
+  /api/products:
+    post:
+      summary: Path to create a product
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/CreateProduct"
+      responses:
+        "200":
+          description: Successful creation of product
+          content:
+            application/json:
+              schema:
+              $ref: "#components/schemas/CreateProductSuccess"
+        "500":
+          description: Error with the server
+    get:
+      summary: Path to get the products
+      tags:
+        - Products
+      requestBody:
+        required: false
+      responses:
+        "200":
+          description: Successful to get the products
+          content:
+            schema:
+            type: array
+            items:
+              $ref: "#components/requestBodies/CreateProductSuccess"
+        "500":
+          description: Error with the server
+  /api/products/{pid}:
+    get:
+      summary: Get one product with the ID
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id the product
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Successful to get the product with that id
+          content:
+            application/json:
+              schema:
+              $ref: "#components/requestBodies/CreateProductSuccess"
+        "500":
+          description: Error with the server
+    put:
+      summary: Update one product with the ID
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id the product
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/CreateProduct"
+      responses:
+        "200":
+          description: Successful to update the product with that id
+          content:
+            application/json:
+              schema:
+              $ref: "#components/requestBodies/CreateProductSuccess"
+        "500":
+          description: Error with the server
+
+
+
+components:
+  requestBodies:
+    CreateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        price:
+          type: number
+        status:
+          type: string
+        stock:
+          type: number
+        category:
+          type: string
+        thumbnail:
+          type: string
+      example:
+        title: "tablet"
+        description: "very good black tablet"
+        code: "001A"
+        price: 500
+        status: "available"
+        stock: 20
+        category: "tecnologic"
+        thumbnail: "null"
+  schemas:
+    CreateProductSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          type: object
+          properties:
+            _id:
+              type: ObjectId
+            title:
+              type: string
+            description:
+              type: string
+            code:
+              type: string
+            price:
+              type: number
+            status:
+              type: string
+            stock:
+              type: number
+            category:
+              type: string
+            thumbnail:
+              type: string
+        message:
+          type: string
+      example:
+        status: "success"
+        data:
+          _id: ObjetId(asd23wadf43)
+          title: "tablet"
+          description: "very good black tablet"
+          code: "001A"
+          price: 500
+          status: "available"
+          stock: 20
+          category: "tecnologic"
+          thumbnail: "null"
+        message: "Created product"

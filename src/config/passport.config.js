@@ -1,12 +1,10 @@
 import passport from "passport";
-import local from "passport-local"
+import LocalStrategy from "passport-local"
 import GitHubStrategy from "passport-github2"
 import { createHash, isValidPassword } from '../utils.js'
 import { config } from "./config.js";
 import { UsersService } from "../service/users.service.js";
 
-
-const LocalStrategy = local.Strategy
 
 
 export const initializePassport = () =>{
@@ -55,8 +53,8 @@ export const initializePassport = () =>{
 
     passport.use("registerStrategy", new LocalStrategy(
         {
-            passReqToCallback:true,
-            usernameField:"email"
+            usernameField:"email",
+            passReqToCallback:true
         },
         async(req, username, password, done) =>{
             try {
@@ -67,7 +65,6 @@ export const initializePassport = () =>{
                 }
 
                 let role = "user"
-
                 if(username.endsWith("@coder.com")){
                     role = "admin"
                 }

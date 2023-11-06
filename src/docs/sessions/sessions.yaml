@@ -1,0 +1,47 @@
+paths:
+  /api/sessions/login:
+    post:
+      summary: Path to create a user
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/LoginUser"
+      responses:
+        "200":
+          description: Successful creation the user
+          content:
+            application/json:
+              schema:
+              $ref: "#components/schemas/LoginSuccess"
+        "500":
+          description: Error with the server
+
+
+
+components:
+  requestBodies:
+    LoginUser:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: "facu@gmail.com"
+        password: "123reqres"
+  schemas:
+    LoginSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      example:
+        status: "success"
+        message: "Login successful"

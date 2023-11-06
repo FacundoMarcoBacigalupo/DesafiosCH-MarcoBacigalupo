@@ -6,15 +6,14 @@ import { SessionController } from "../controller/sessions.controller.js";
 const router = Router()
 
 
-
 //Ruta register
-router.post("/register", passport.authenticate("registerStrategy", {failureRedirect:"/api/sessions/failRegister"}), SessionController.redirectRegister)
+router.post("/register", passport.authenticate("registerStrategy", {failureRedirect:"/api/sessions/failRegister"}), SessionController.successRegister)
 
 router.get("/failRegister", SessionController.failRegister)
 
 
 //Ruta login
-router.post("/login", passport.authenticate("loginStrategy",{failureRedirect:"/api/sessions/failLogin"}), SessionController.redirectLogin)
+router.post("/login", passport.authenticate("loginStrategy",{failureRedirect:"/api/sessions/failLogin"}), SessionController.successLogin)
 
 router.get("/failLogin", SessionController.failLogin)
 

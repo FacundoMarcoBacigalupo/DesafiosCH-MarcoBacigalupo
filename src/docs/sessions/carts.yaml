@@ -1,0 +1,113 @@
+paths:
+  /api/carts:
+    post:
+      summary: Create cart
+      tags:
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/CreateCart"
+      responses:
+        "200":
+          description: Successful to crete cart
+          content:
+            application/json:
+              schema:
+              $ref: "#components/requestBodies/CreateCartSuccess"
+        "500":
+          description: Error with the server
+  /api/carts/{cid}:
+    get:
+      summary: Get cart with the ID
+      tags:
+        - Carts
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id the product
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Successful to get the cart with that id
+          content:
+            application/json:
+              schema:
+              $ref: "#components/requestBodies/CreateCartSuccess"
+        "500":
+          description: Error with the server
+    put:
+      summary: Update one cart with the ID
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id the cart
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/CreateCart"
+      responses:
+        "200":
+          description: Successful to update the cart with that id
+          content:
+            application/json:
+              schema:
+              $ref: "#components/requestBodies/CreateCartSuccess"
+        "500":
+          description: Error with the server
+
+
+
+components:
+  requestBodies:
+    CreateCart:
+      type: object
+      properties:
+        quantity:
+          type: number
+        productId:
+          type: ObjectId
+      example:
+        quantity: 4
+        productId: {_id: "asdasd123as"}
+  schemas:
+    CreateCartSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          type: object
+          properties:
+            _id:
+              type: ObjectId
+            quantity:
+              type: number
+            productId:
+              type: ObjectId
+        message:
+          type: string
+      example:
+        status: "success"
+        data:
+          _id: ObjetId(asd23wadf43)
+          title: "tablet"
+          description: "very good black tablet"
+          code: "001A"
+          price: 500
+          status: "available"
+          stock: 20
+          category: "tecnologic"
+          thumbnail: "null"
+        message: "Created product"

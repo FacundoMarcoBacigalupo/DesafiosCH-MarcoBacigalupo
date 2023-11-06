@@ -24,6 +24,9 @@ import { userRouter } from "./routes/users.routes.js"
 
 import { errorHandler } from "./dao/middlewares/errorHandler.js"
 
+import { swaggerSpecs } from './config/swagger.config.js'
+import swaggerUI from "swagger-ui-express"
+
 
 
 
@@ -65,7 +68,6 @@ app.use(session({
     saveUninitialized:true
 }))
 
-//Configuracion de Passport
 app.use(passport.session())
 app.use(passport.initialize())
 
@@ -78,8 +80,10 @@ app.use("/api/products", productsRouter)
 app.use("/api/carts", cartsRouter)
 app.use("/api/sessions", sessionsRouter)
 app.use("/api/users", userRouter)
+
 app.use("/mockingproducts", mockingProductsRouter)
 app.use("/loggerTest", loggerTestRouter)
+app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpecs))
 
 app.use(viewRouters)
 app.use(errorHandler)

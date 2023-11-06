@@ -7,7 +7,6 @@ import { TicketsController } from '../controller/tickets.controller.js';
 const router = Router();
 
 
-
 //Get cart by id
 router.get("/:cid", CartsController.getCartById);
 
@@ -20,16 +19,11 @@ router.get("/populate/:cid", CartsController.getCartWithPopulate);
 router.post("/", checkUserAuthenticate, checkRole(["admin"]), CartsController.createCart);
 
 
+router.post("/:cid/purchase", TicketsController.createTicket);
+
+
 //Get product in cart
 router.post("/:cid/product/:pid", checkUserAuthenticate, checkRole(["admin"]), CartsController.getProductInCartById);
-
-
-//Delete product in cart
-router.delete("/:cid/products/:pid", checkUserAuthenticate, checkRole(["admin"]), CartsController.deleteProductInCartById);
-
-
-//Delete cart by id
-router.delete("/:cid", checkUserAuthenticate, checkRole(["admin"]), CartsController.deleteCartById);
 
 
 //Update cart by id
@@ -38,9 +32,6 @@ router.put("/:cid", checkUserAuthenticate, checkRole(["admin"]), CartsController
 
 //Update product in cart
 router.put("/:cid/products/:pid", checkUserAuthenticate, checkRole(["admin"]), CartsController.updateProductInCartById);
-
-
-router.post("/:cid/purchase", TicketsController.createTicket);
 
 
 

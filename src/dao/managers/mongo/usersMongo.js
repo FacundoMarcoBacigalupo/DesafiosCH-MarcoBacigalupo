@@ -8,7 +8,7 @@ export class UsersMongo{
 
     async createUser(user){
         try {
-            const createUser = await this.model.create(user).lean()
+            const createUser = await this.model.create(user)
             return createUser
         }
         catch (error) {

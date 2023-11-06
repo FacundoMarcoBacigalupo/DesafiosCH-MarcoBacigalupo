@@ -5,7 +5,6 @@ import { checkRole, checkUserAuthenticate } from '../dao/middlewares/auth.js'
 const router = Router()
 
 
-
 //Get products
 router.get("/", ProductsController.getProducts)
 

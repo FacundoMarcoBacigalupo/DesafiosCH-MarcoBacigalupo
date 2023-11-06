@@ -1,6 +1,5 @@
 import { productDao } from "../dao/factory.js";
 
-
 export class ProductService{
     static getProducts = async() =>{
         return await productDao.getProducts()
