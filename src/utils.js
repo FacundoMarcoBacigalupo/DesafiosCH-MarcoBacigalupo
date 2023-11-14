@@ -10,13 +10,13 @@ export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 
 
-export const createHash = (password) =>{
+export const createHash = async(password) =>{
     return bcrypt.hashSync(password, bcrypt.genSaltSync());
 };
 
 
 
-export const isValidPassword = (userDB, password) =>{
+export const isValidPassword = async(userDB, password) =>{
     return bcrypt.compareSync(password, userDB.password);
 };
 

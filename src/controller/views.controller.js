@@ -41,8 +41,8 @@ export class ViewsController{
             }
     
             const result = await productDao.getProductsPaginate(query, {
-                page,
                 limit,
+                page,
                 sort:{price:sortValue},
                 lean:true
             })
@@ -50,7 +50,7 @@ export class ViewsController{
             const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`
     
             const resultProductsView = {
-                status:"success",
+                status:"Success",
                 payload:result.docs,
                 totalPages:result.totalPages,
                 prevPage: result.prevPage,
@@ -73,7 +73,7 @@ export class ViewsController{
     static renderCartId = async(req, res) =>{
         try {
             let cartId = parseInt(req.params.cid)
-            let cart = await cartDao.getCartById(cartId)
+            await cartDao.getCartById(cartId)
     
             res.render("cartsId", { style: "cartsId.css" })
         }

@@ -11,8 +11,8 @@ export class ProductService{
     }
 
 
-    static addProduct = async(productInfo) =>{
-        return await productDao.addProduct(productInfo)
+    static createProduct = async(productInfo) =>{
+        return await productDao.createProduct(productInfo)
     }
 
 

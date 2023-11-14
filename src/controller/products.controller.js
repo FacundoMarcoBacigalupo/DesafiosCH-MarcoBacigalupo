@@ -8,14 +8,14 @@ export class ProductsController{
             const product = await ProductService.getProducts()
             if(limit){
                 const result = product.filter(pro => pro.id <= limit)
-                res.json({status:"success", data: result})
+                res.json({status:"Success", data: result})
             }
             else{
-                res.json({status:"success", data: product})
+                res.json({status:"Success", data: product})
             }
         }
         catch (error) {
-            res.json({status: "error", message: error.message})
+            res.json({status: "Error", message: error.message})
         }
     }
 
@@ -26,14 +26,14 @@ export class ProductsController{
             let productId = await ProductService.getProductById(pid)
     
             if(!productId){
-                res.json({status:"error", message: "Not exist product with that ID"})
+                res.json({status: "Error", message: "Not exist product with that ID"})
             }
             else{
-                res.json({status: "success", data: productId})
+                res.json({status: "Success", data: productId})
             }
         }
         catch (error) {
-            res.json({status:"error", message: error.message})
+            res.json({status:"Error", message: error.message})
         }
     }
 
@@ -42,12 +42,12 @@ export class ProductsController{
         try {
             const productInfo = req.body;
             productInfo.owner = req.user._id;
-
-            const productCreated = await ProductService.addProduct(productInfo) 
-            res.json({status:"success", data: productCreated, message:"Created product"})
+    
+            const productCreated = await ProductService.createProduct(productInfo) 
+            res.json({status:"Success", data: productCreated, message:"Created product"})
         }
         catch (error) {
-            res.json({status: "error", message: error.message})
+            res.json({status: "Error", message: error.message})
         }
     }
 

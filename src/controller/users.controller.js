@@ -5,67 +5,69 @@ import { EErrors } from "../service/errors/Enums.service.js";
 import { invalidParamMessage } from '../service/errors/invalidParamUser.service.js';
 
 
-const users = []
 
 export class UsersController{
-    static getUsers = (req ,res) =>{
-        res.send({ status:"Success", payload: users })
+
+    static getUserById = async(req, res) =>{
+        try {
+            const uid = req.params.uid
+            const userId = parseInt(uid)
+    
+            if(Number.isNaN(userId)){
+                CustomError.createError({
+                    name: "UserById error",
+                    cause: invalidParamMessage(uid),
+                    message: "Param are invalid to search the user",
+                    code: EErrors.INVALID_PARAM
+                })
+            }
+    
+            const user = await UsersService.getUserById(userId)
+            res.json({status:"Success", message:"Found user", payload:user})
+        }
+        catch (error) {
+            res.json({status:"Error", message:"Error trying get the user with that ID"})
+        }
     }
 
 
 
-    static getUserById = (req, res) =>{
-        const uid = req.params.uid
-        const userId = parseInt(uid)
+    static createUser = async(req, res) =>{
+        try {
+            const { first_name, last_name, email, age } = req.body
     
-        if(Number.isNaN(userId)){
-            CustomError.createError({
-                name: "UserById error",
-                cause: invalidParamMessage(uid),
-                message: "Param are invalid to search the user",
-                code: EErrors.INVALID_PARAM
-            })
+            if(!first_name || !last_name || !email){
+                CustomError.createError({
+                    name: "User creating error",
+                    cause: generateUserErrorInfo({ first_name, last_name, email, age }),
+                    message: "Error trying to create the user",
+                    code: EErrors.INVALID_JSON
+                })
+            }
+        
+            const newUser = {
+                first_name,
+                last_name,
+                age,
+                email
+            }
+        
+            const userCreated = UsersService.createUser(newUser)
+        
+            res.send({ status: "Succes", message:"User created", payload: userCreated })
         }
-        res.json({status:"Success", message:"Found user"})
-    }
-
-
-
-    static createUser = (req, res) =>{
-        const { first_name, last_name, email, age } = req.body
-    
-        if(!first_name || !last_name || !email){
-            CustomError.createError({
-                name: "User creating error",
-                cause: generateUserErrorInfo({ first_name, last_name, email, age }),
-                message: "Error trying to create the user",
-                code: EErrors.INVALID_JSON
-            })
+        catch (error) {
+            res.send({status:"Error", message:"Error trying create the user"})
         }
-    
-        const user = {
-            first_name,
-            last_name,
-            age,
-            email
-        }
-    
-        if(users.length === 0){
-            user.id = 1
-        }
-        else{
-            user.id = user[user.length-1].id+1
-        }
-        users.push(user)
-    
-        res.send({ status: "Succes", payload: users })
     }
 
 
 
     static modifyRole = async(req, res) =>{
         try {
-            const userId = req.params.uid
+            const uid = req.params.uid
+            const userId = parseInt(uid)
+    
             const user = await UsersService.getUserById(userId)
             const userRole = user.role
     
@@ -84,6 +86,39 @@ export class UsersController{
         }
         catch (error) {
             res.send({status:"Error", message:error.message})
+        }
+    }
+
+
+
+    static updateUser = async(req, res) =>{
+        try {
+            const uid = req.params.uid
+            const userId = parseInt(uid)
+            const { first_name, last_name, email, age } = req.body
+    
+            if(!first_name || !last_name || !email){
+                CustomError.createError({
+                    name: "Updating user error",
+                    cause: generateUserErrorInfo({ first_name, last_name, email, age }),
+                    message: "Error trying to update the user",
+                    code: EErrors.INVALID_JSON
+                })
+            }
+        
+            const userUpdate = {
+                first_name,
+                last_name,
+                age,
+                email
+            }
+        
+            await UsersService.updateUser(userId, userUpdate)
+        
+            return res.send({status:"Success", message:"User updated"})
+        }
+        catch (error) {
+            return res.send({status:"Error", message:"Error trying update the user with that ID"})
         }
     }
 }

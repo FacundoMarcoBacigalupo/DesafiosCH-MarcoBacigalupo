@@ -8,7 +8,7 @@ export class ProductsMongo{
 
 
 //Crear productos
-async addProduct (productInfo){
+async createProduct (productInfo){
     try {
         const createdProduct = await this.model.create(productInfo)
         return createdProduct
