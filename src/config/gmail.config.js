@@ -2,7 +2,6 @@ import nodemailer from "nodemailer"
 import { config } from "./config.js"
 
 
-
 const gmailTrasnporter = nodemailer.createTransport({
     service:"gmail",
     port:587,
@@ -15,6 +14,5 @@ const gmailTrasnporter = nodemailer.createTransport({
         rejectUnauthorized:false
     }
 })
-
 
 export { gmailTrasnporter }

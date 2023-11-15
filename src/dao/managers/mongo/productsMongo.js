@@ -24,7 +24,7 @@ async createProduct (productInfo){
 //Obtener todos los productos
     async getProducts (){
         try {
-            const products = await this.model.find().lean()
+            const products = await this.model.find()
             return products
         }
         catch (error) {

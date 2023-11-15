@@ -1,10 +1,5 @@
 import dotenv from "dotenv";
-import { __dirname } from "../utils.js";
-
-
-
 dotenv.config();
-
 
 
 export const config = {

@@ -30,7 +30,6 @@ import swaggerUI from "swagger-ui-express"
 
 
 
-
 const app = express()
 const port = config.server.port
 
@@ -115,3 +114,7 @@ io.on("connection",(socket)=>{
         io.emit("messageHistory", messages);
     })
 })
+
+
+
+export { app }

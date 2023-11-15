@@ -6,35 +6,35 @@ import { ViewsController } from "../controller/views.controller.js";
 const router = Router();
 
 
-//Vista Home
+//View Home
 router.get("/", ViewsController.renderHome);
 
 
-//Vista Chat
+//View Chat
 router.get("/chat", ViewsController.renderChat);
 
 
-//Vista Productos
+//View products
 router.get("/products", checkUserAuthenticate, ViewsController.renderProducts);
 
 
-//Vista CartId
+//View CartId
 router.get("/carts:cid", ViewsController.renderCartId);
 
 
-//Vista registro
+//View register
 router.get("/register", ViewsController.renderRegister);
 
 
-//Vista login
+//View login
 router.get("/login", ViewsController.renderLogin);
 
 
-//Vista profile
+//View profile
 router.get("/profile", ViewsController.renderProfile);
 
 
-//Vista recuperar contraseña
+//View recuperar contraseña
 router.get("/forgot-password", ViewsController.renderForgotPassword)
 
 router.get("/reset-password", ViewsController.renderReserPassword)

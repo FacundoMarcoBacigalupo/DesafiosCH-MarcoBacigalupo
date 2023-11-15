@@ -15,9 +15,9 @@ export const checkRole = (roles) =>{
 export const checkUserAuthenticate = (req, res, next) =>{
     if(req.user){
         next();
-    } else {
-        res.redirect("/login");
-        res.json({status:"Error", message:"You do not have permission"})
+    }
+    else {
+        res.status(403).json({status:"Error", message:"You do not have permission"})
     }
 };
 
@@ -26,8 +26,9 @@ export const checkUserAuthenticate = (req, res, next) =>{
 
 export const showLoginView = (req, res, next) =>{
     if(req.user){
-        res.redirect("/");
-    } else {
+        res.render("/");
+    }
+    else {
         next();
     }
 };

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon src/app.js",
-    "test": "mocha test/users.test.js"
+    "test": "mocha tests/products.test.js --exit"
   },
   "keywords": [],
   "author": "Facundo Marco Bacigalupo",
@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "chai": "^4.3.10",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }

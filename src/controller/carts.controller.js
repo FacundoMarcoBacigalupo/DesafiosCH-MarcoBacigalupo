@@ -7,10 +7,10 @@ export class CartsController{
     static createCart = async(req, res) =>{
         try {
             const cartCreate = await CartsService.createCart()
-            res.send({status: "success", data: cartCreate, message: "Cart created"})
+            res.send({status: "Success", data: cartCreate, message: "Cart created"})
         }
         catch (error) {
-            res.send({status: "error", message: error.message})
+            res.send({status: "Error", message: error.message})
         }
     }
 
@@ -39,10 +39,10 @@ export class CartsController{
             }
 
             const request = await CartsService.updateCart(cartId, cart)
-            res.send({status:"success", data: request})
+            res.send({status:"Success", data: request})
         }
         catch (error) {
-            res.send({status: "error", message: error.message})
+            res.send({status:"Error", message: error.message})
         }
     }
 
@@ -52,13 +52,13 @@ export class CartsController{
             let cId = parseInt(req.params.cid)
             let cart = await CartsService.getCartById(cId)
             if(!cart){
-                res.send({status: "error", data: "Cart no exist"})
+                res.send({status:"Error", data: "Cart no exist"})
             }
 
-            res.send({status: "success", data: cart})
+            res.send({status:"Success", data: cart})
         }
         catch (error) {
-            res.send({status: "error", message: error.message})
+            res.send({status:"Error", message: error.message})
         }
     }
 
@@ -68,13 +68,13 @@ export class CartsController{
             let cId = parseInt(req.params.cid)
             let cart = await CartsService.getCartById(cId).populate("product")
             if(!cart){
-                res.send({status: "error", data: "Cart no exist"})
+                res.send({status:"Error", data: "Cart no exist"})
             }
 
-            res.send({status: "success", data: cart})
+            res.send({status:"Success", data: cart})
         }
         catch (error) {
-            res.send({status: "error", message: error.message})
+            res.send({status:"Error", message: error.message})
         }
     }
 
@@ -86,20 +86,20 @@ export class CartsController{
     
             let cart = await CartsService.getCartById(cartId)
             if(!cart){
-                return res.send({status: "error", message: "Cart no found"})
+                return res.send({status:"Error", message:"Cart no found"})
             }
 
             let product = await ProductService.getProductById(productId)
             if(!product){
-                return res.send({status: "error", message: "Product no found"})
+                return res.send({status:"Error", message:"Product no found"})
             }
 
             cart.deleteOne()
             cart.save()
-            res.send({status: "success", message: "Product deleted"})
+            res.send({status:"Success", message:"Product deleted"})
         }
         catch (error) {
-            res.send({status: "error", message: error.message})
+            res.send({status:"Error", message: error.message})
         }
     }
 
@@ -109,15 +109,15 @@ export class CartsController{
             let cartId = parseInt(req.params.cid)
             let cart = await CartsService.getCartById(cartId)
             if(!cart){
-                return res.send({status: "error", message: "Cart no found"})
+                return res.send({status:"Error", message:"Cart no found"})
             }
 
             await CartsService.deleteCart(cartId)
 
-            res.send({status: "success", message: "Product deleted"})
+            res.send({status:"Success", message:"Product deleted"})
         }
         catch (error) {
-            res.send({status: "error", message: error.message})
+            res.send({status:"Error", message:error.message})
         }
     }
 
@@ -134,10 +134,10 @@ export class CartsController{
 
             cart.product.push(cartContent)
             cart.save()
-            res.send({status: "success", data: "Cart updated"})
+            res.send({status:"Success", data: "Cart updated"})
         }
         catch (error) {
-            res.send({status: "error", message: error.message})
+            res.send({status:"Error", message: error.message})
         }
     }
 
@@ -149,20 +149,20 @@ export class CartsController{
 
             let cart = await CartsService.getCartById(cartId)
             if(!cart){
-                return res.send({status: "error", message: "Cart no found"})
+                return res.send({status: "Error", message: "Cart no found"})
             }
 
             let product = await ProductService.getProductById(productId)
             if(!product){
-                return res.send({status: "error", message: "Product no found"})
+                return res.send({status: "Error", message: "Product no found"})
             }
 
             cart.product.push(productId)
             let result = await CartsService.updateCart(cartId, cart)
-            res.send({status: "success", data: result, message: "Product updated"})
+            res.send({status: "Success", data: result, message: "Product updated"})
         }
         catch (error) {
-            res.send({status: "error", message: error.message})
+            res.send({status: "Error", message: error.message})
         }
     }
 }

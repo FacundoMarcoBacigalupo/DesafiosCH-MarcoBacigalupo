@@ -1,17 +1,16 @@
 import { ProductService } from "../service/products.service.js"
 
-
 export class ProductsController{
     static getProducts = async(req, res) =>{
         try {
-            let limit = parseInt(req.query.limit)
-            const product = await ProductService.getProducts()
+            const limit = req.query.limit;
+            const products = await ProductService.getProducts()
             if(limit){
-                const result = product.filter(pro => pro.id <= limit)
+                const result = products.filter(prod => prod.id <= limit)
                 res.json({status:"Success", data: result})
             }
             else{
-                res.json({status:"Success", data: product})
+                res.json({status:"Success", data: products})
             }
         }
         catch (error) {
@@ -43,7 +42,7 @@ export class ProductsController{
             const productInfo = req.body;
             productInfo.owner = req.user._id;
     
-            const productCreated = await ProductService.createProduct(productInfo) 
+            const productCreated = await ProductService.createProduct(productInfo)
             res.json({status:"Success", data: productCreated, message:"Created product"})
         }
         catch (error) {
@@ -59,14 +58,14 @@ export class ProductsController{
             let productUpdate = await ProductService.updateProduct(pid, product)
     
             if(!productUpdate){
-                res.json({status:"error", message: "Not exist product with that ID"})
+                res.json({status:"Error", message: "Not exist product with that ID"})
             }
             else{
-                res.json({status: "success", data: productUpdate})
+                res.json({status: "Success", data: productUpdate})
             }
         }
         catch (error) {
-            res.json({status:"error", message: error.message})
+            res.json({status:"Error", message: error.message})
         }
     }
 
@@ -74,17 +73,17 @@ export class ProductsController{
     static deleteProduct = async(req, res) =>{
         try {
             let productID = parseInt(req.params.pid)
-            let product = ProductService.getProductById(pid)
+            let product = await ProductService.getProductById(pid)
             if(req.user.role === "premium" && product.owner.toString() === req.user._id.toString() || req.user.role === "admin"){
                 await ProductService.deleteProduct(productID)
-                res.json({status: "success", message:"Product eliminated"})
+                res.json({status: "Success", message:"Product eliminated"})
             }
             else{
-                res.json({status:"error", message: "You don't have permissions"})
+                res.json({status:"Error", message: "You don't have permissions"})
             }
         }
         catch (error) {
-            res.json({status:"error", message: error.message})
+            res.json({status:"Error", message: error.message})
         }
     }
 }
