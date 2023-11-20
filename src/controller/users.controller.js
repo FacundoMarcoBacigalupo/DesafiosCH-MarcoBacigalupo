@@ -26,6 +26,7 @@ export class UsersController{
             res.json({status:"Success", message:"Found user", payload:user})
         }
         catch (error) {
+            console.log(error.message)
             res.json({status:"Error", message:"Error trying get the user with that ID"})
         }
     }
@@ -57,6 +58,7 @@ export class UsersController{
             res.send({ status: "Succes", message:"User created", payload: userCreated })
         }
         catch (error) {
+            console.log(error.message)
             res.send({status:"Error", message:"Error trying create the user"})
         }
     }
@@ -67,24 +69,30 @@ export class UsersController{
         try {
             const uid = req.params.uid
             const userId = parseInt(uid)
-    
+            
             const user = await UsersService.getUserById(userId)
             const userRole = user.role
-    
-            if(userRole === "user"){
-                user.role = "premium"
-            }
-            else if (userRole === "premium"){
-                user.role = "user"
+            
+            if(user.documents.length >= 3 && user.status === "complete"){
+                if(userRole === "user"){
+                    user.role = "premium"
+                }
+                else if (userRole === "premium"){
+                    user.role = "user"
+                }
+                else{
+                    return res.send({status:"Error", message:"Cannot change role of this user"})
+                }
+                
+                await UsersService.updateUser(user._id, user)
+                return res.send({status:"Success", message:`The new role of this user is ${user.role}`})
             }
             else{
-                return res.send({status:"Error", message:"Cannot change role of this user"})
+                res.json({status:"Error", message:"The user has not uploaded all the documents"})
             }
-    
-            await UsersService.updateUser(user._id, user)
-            return res.send({status:"Success", message:`The new role of this user is ${user.role}`})
         }
         catch (error) {
+            console.log(error.message)
             res.send({status:"Error", message:error.message})
         }
     }
@@ -118,7 +126,49 @@ export class UsersController{
             return res.send({status:"Success", message:"User updated"})
         }
         catch (error) {
+            console.log(error.message)
             return res.send({status:"Error", message:"Error trying update the user with that ID"})
+        }
+    }
+
+
+
+    static uploadDocuments = async(req, res) =>{
+        try {
+            const userId = req.params.uid
+            const user = await UsersService.getUserById(userId)
+
+            const identification = req.files?.identification?.[0] || null
+            const domicile = req.files?.domicile?.[0] || null
+            const accountStatus = req.files?.accountStatus?.[0] || null
+
+            const docs = []
+            if(identification){
+                docs.push({name:identification, reference:identification.filename})
+            };
+
+            if(domicile){
+                docs.push({name:domicile, reference:domicile.filename})
+            };
+
+            if(accountStatus){
+                docs.push({name:accountStatus, reference:accountStatus.filename})
+            };
+
+            user.documents = docs
+            if(docs.length === 3){
+                user.stauts = "complete"
+            }
+            else{
+                user.status = "incomplete"
+            }
+
+            const result = await UsersService.updateUser(user._id, user)
+            res.json({status:"Success", data:result})
+        }
+        catch (error) {
+            console.log(error.message)
+            res.json({status:"Error", message:"Documents could not be loaded"})
         }
     }
 }

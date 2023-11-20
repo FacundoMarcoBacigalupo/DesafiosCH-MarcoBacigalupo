@@ -33,6 +33,7 @@ export class TicketsController{
             const ticketCreted = await TicketsService.createTickets(newTicket)
         }
         catch (error) {
+            console.log(error.message)
             res.json({status: "Error", message: error})
         }
     }

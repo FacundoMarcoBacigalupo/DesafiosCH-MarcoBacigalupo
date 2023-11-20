@@ -73,7 +73,8 @@ export const initializePassport = () =>{
                     first_name: first_name,
                     email: username,
                     password: createHash(password),
-                    role: role
+                    role: role,
+                    profile: req.file.filename
                 }
 
                 let userCreated = await UsersService.createUser(newUser)
@@ -99,6 +100,8 @@ export const initializePassport = () =>{
                 }
 
                 if(isValidPassword(user, password)){
+                    user.last_connection = new Date()
+                    await UsersService.updateUser(user._id, user)
                     return done(null, user)
                 }
                 else{

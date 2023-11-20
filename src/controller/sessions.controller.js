@@ -5,22 +5,23 @@ import { validateToken, createHash } from "../utils.js"
 
 export class SessionController{
     static successRegister = (req, res) =>{
-        return res.json({status:"Success", message:"Register successful"});
+        return res.render("login")
     }
 
 
     static failRegister = (req, res) =>{
-        return res.json({status:"Error", message:"Can not register the user"});
+        return res.render("register", {message:"Can not register the use"}, {style: "forms.css"})
     }
 
 
     static successLogin = (req, res) =>{
-        return res.json({status:"Success", message:"Login successful"});
+        const user = req.body
+        return res.render("profile", {user})
     }
 
 
     static failLogin = (req, res) =>{
-        return res.json({status:"Error", message:"Can not login the user"});
+        return res.render("login", {message:"Can not login the user"}, {style: "forms.css"})
     }
 
 
@@ -33,17 +34,20 @@ export class SessionController{
     }
 
 
-    static redirectLogout = (req, res) =>{
-        req.logOut(error =>{
-            if(error){
-                return res.render("login", {user:req.user, error:"Cannot close de session"}, {style: "forms.css"})
-            }
-            else{
-                req.session.destroy(error =>{
+    static logout = async(req, res) =>{
+        try {
+            const user = req.user
+            user.last_connection = new Date()
+            await UsersService.updateUser(user._id, user)
+        
+            await req.session.destroy(error =>{
                     if(error) return res.render("login", {user: req.session.userInfo, error:"Cannot close de session"}, {style: "forms.css"})
                 })
-            }
-        })
+        }
+        catch (error) {
+            console.log(error.message)
+            return res.render("login", {user:req.user, error:"Cannot close de session"}, {style: "forms.css"})
+        }
     }
 
 
@@ -82,6 +86,7 @@ export class SessionController{
                 return res.send("The token expired, <a href='/forgot-password'>try again<a>")
             }
         } catch (error) {
+            console.log(error.message)
             res.send("password could not be reset, <a href='/forgot-password'>try again<a>")
         }
     }

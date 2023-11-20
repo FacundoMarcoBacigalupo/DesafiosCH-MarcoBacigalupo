@@ -37,6 +37,38 @@ const userSchema = new mongoose.Schema({
         require:true,
         enum:["user","admin", "premium"],
         default:"user"
+    },
+
+    documents:{
+        type:[
+            {
+                name:{
+                    type:String,
+                    required:true
+                },
+                reference:{
+                    type:String,
+                    required:true
+                }
+            }
+        ],
+        default:[]
+    },
+
+    last_connection:{
+        type:Date,
+        default:null
+    },
+
+    status:{
+        type:String,
+        enums:["pending", "incomplete", "complete"],
+        default:"pending"
+    },
+
+    profile:{
+        type:String,
+        require:true
     }
 })
 

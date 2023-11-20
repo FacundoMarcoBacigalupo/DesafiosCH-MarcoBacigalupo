@@ -10,6 +10,7 @@ export class ViewsController{
             res.render("home", { style: "home.css" })
         }
         catch (error) {
+            console.log(error.message)
             res.send("<h3><strong>Error with load home</strong></h3>")
         }
     };
@@ -20,6 +21,7 @@ export class ViewsController{
             res.render("chat", { style: "chat.css" })
         }
         catch (error) {
+            console.log(error.message)
             res.send("<h3><strong>Error with get the Global Chat</strong></h3>")
         }
     };
@@ -65,6 +67,7 @@ export class ViewsController{
             res.render("products", {resultProductsView}, { style: "products.css" })
         }
         catch (error) {
+            console.log(error.message)
             res.render("products", {error: "Dates not render"}, { style: "products.css" },)
         }
     };
@@ -78,6 +81,7 @@ export class ViewsController{
             res.render("cartsId", { style: "cartsId.css" })
         }
         catch (error) {
+            console.log(error.message)
             res.send("<h3><strong> Error with get the Cart </strong></h3>")
         }
     };

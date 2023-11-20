@@ -10,6 +10,7 @@ export class CartsController{
             res.send({status: "Success", data: cartCreate, message: "Cart created"})
         }
         catch (error) {
+            console.log(error.message)
             res.send({status: "Error", message: error.message})
         }
     }
@@ -42,6 +43,7 @@ export class CartsController{
             res.send({status:"Success", data: request})
         }
         catch (error) {
+            console.log(error.message)
             res.send({status:"Error", message: error.message})
         }
     }
@@ -58,6 +60,7 @@ export class CartsController{
             res.send({status:"Success", data: cart})
         }
         catch (error) {
+            console.log(error.message)
             res.send({status:"Error", message: error.message})
         }
     }
@@ -74,6 +77,7 @@ export class CartsController{
             res.send({status:"Success", data: cart})
         }
         catch (error) {
+            console.log(error.message)
             res.send({status:"Error", message: error.message})
         }
     }
@@ -99,6 +103,7 @@ export class CartsController{
             res.send({status:"Success", message:"Product deleted"})
         }
         catch (error) {
+            console.log(error.message)
             res.send({status:"Error", message: error.message})
         }
     }
@@ -117,6 +122,7 @@ export class CartsController{
             res.send({status:"Success", message:"Product deleted"})
         }
         catch (error) {
+            console.log(error.message)
             res.send({status:"Error", message:error.message})
         }
     }
@@ -137,6 +143,7 @@ export class CartsController{
             res.send({status:"Success", data: "Cart updated"})
         }
         catch (error) {
+            console.log(error.message)
             res.send({status:"Error", message: error.message})
         }
     }
@@ -162,6 +169,7 @@ export class CartsController{
             res.send({status: "Success", data: result, message: "Product updated"})
         }
         catch (error) {
+            console.log(error.message)
             res.send({status: "Error", message: error.message})
         }
     }

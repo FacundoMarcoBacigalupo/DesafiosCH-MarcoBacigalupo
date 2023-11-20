@@ -1,3 +1,4 @@
+import multer from 'multer';
 import bcrypt from 'bcrypt';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -46,3 +47,62 @@ export const validateToken = async(token) =>{
         return null
     }
 }
+
+
+
+const checkValidFields = (body) =>{
+    const { first_name, email, password } = body
+
+    if(!first_name || !email || !password){
+        return false
+    }
+    return true
+}
+
+const multerProfileFilter = (req, file, cb) =>{
+    let valid = checkValidFields(req.body)
+
+    if(valid === true){
+        cb(null, true)
+    }
+    else{
+        cb(null, false)
+    }
+}
+
+
+
+
+const profileStorage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, path.join(__dirname,"/multer/users/img"))
+    },
+    filename: function(req, file, cb){
+        cb(null, `${req.body.email}-perfil-${file.originalname}`)
+    }
+})
+export const uploaderProfile = multer({storage:profileStorage, fileFilter:multerProfileFilter})
+
+
+
+const productsStorage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, path.join(__dirname,"/multer/products/img"))
+    },
+    filename: function(req, file, cb){
+        cb(null, `${req.body.code}-product-${file.originalname}`)
+    }
+})
+export const uploaderProducts = multer({storage:productsStorage})
+
+
+
+const documentsStorage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, path.join(__dirname,"/multer/products/documents"))
+    },
+    filename: function(req, file, cb){
+        cb(null, `${req.user.email}-document-${file.originalname}`)
+    }
+})
+export const uploaderDocuments = multer({storage:documentsStorage})

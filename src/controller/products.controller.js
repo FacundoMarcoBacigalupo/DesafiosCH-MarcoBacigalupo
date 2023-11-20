@@ -14,6 +14,7 @@ export class ProductsController{
             }
         }
         catch (error) {
+            console.log(error.message)
             res.json({status: "Error", message: error.message})
         }
     }
@@ -32,6 +33,7 @@ export class ProductsController{
             }
         }
         catch (error) {
+            console.log(error.message)
             res.json({status:"Error", message: error.message})
         }
     }
@@ -41,11 +43,13 @@ export class ProductsController{
         try {
             const productInfo = req.body;
             productInfo.owner = req.user._id;
+            productInfo.thumbnail = req.file.filename
     
             const productCreated = await ProductService.createProduct(productInfo)
             res.json({status:"Success", data: productCreated, message:"Created product"})
         }
         catch (error) {
+            console.log(error.message)
             res.json({status: "Error", message: error.message})
         }
     }
@@ -65,6 +69,7 @@ export class ProductsController{
             }
         }
         catch (error) {
+            console.log(error.message)
             res.json({status:"Error", message: error.message})
         }
     }
@@ -83,6 +88,7 @@ export class ProductsController{
             }
         }
         catch (error) {
+            console.log(error.message)
             res.json({status:"Error", message: error.message})
         }
     }

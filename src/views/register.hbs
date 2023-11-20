@@ -2,7 +2,7 @@
 <h3 style="color: brown">{{error}}</h3>
 
 
-<form method="post" action="/api/sessions/register">
+<form method="post" action="/api/sessions/register" enctype="multipart/form-data">
     <input type="text" placeholder="Firts name" name="first_name" />
         <br/>
     <input type="text" placeholder="Last name" name="last_name" />
@@ -10,6 +10,8 @@
     <input type="email" placeholder="Email" name="email" />
         <br/>
     <input type="password" placeholder="Password" name="password" />
+        <br/><br/>
+    <input type="file" name="profile" />
         <br/>
     <button>Register</button>
 </form>

@@ -1,13 +1,14 @@
 import { Router } from "express";
 import passport from "passport";
 import { SessionController } from "../controller/sessions.controller.js";
+import { uploaderProfile } from "../utils.js";
 
 
 const router = Router()
 
 
 //Route register
-router.post("/register", passport.authenticate("registerStrategy", {failureRedirect:"/api/sessions/failRegister"}), SessionController.successRegister)
+router.post("/register", uploaderProfile.single("profile"), passport.authenticate("registerStrategy", {failureRedirect:"/api/sessions/failRegister"}), SessionController.successRegister)
 
 router.get("/failRegister", SessionController.failRegister)
 
@@ -25,7 +26,7 @@ router.get("/githubcallback", passport.authenticate("githubStrategy", {failureRe
 
 
 //Route logout
-router.get("/logout", SessionController.redirectLogout)
+router.get("/logout", SessionController.logout)
 
 
 //Route forgot-password"
