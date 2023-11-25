@@ -76,9 +76,9 @@ export class ViewsController{
     static renderCartId = async(req, res) =>{
         try {
             let cartId = parseInt(req.params.cid)
-            await cartDao.getCartById(cartId)
+            let cart = await cartDao.getCartById(cartId)
     
-            res.render("cartsId", { style: "cartsId.css" })
+            res.render("cartsId", {cart}, { style: "cartsId.css" })
         }
         catch (error) {
             console.log(error.message)
@@ -92,8 +92,14 @@ export class ViewsController{
     };
 
 
-    static renderLogin = (req, res) =>{
-        res.render("login", {style: "forms.css"})
+    static renderLogin = async(req, res) =>{
+        try {
+            res.render("login", {style: "forms.css"})   
+        } 
+        catch (error) {
+            console.log(error,message)
+            throw new Error
+        }
     };
 
 
@@ -104,13 +110,13 @@ export class ViewsController{
 
 
     static renderForgotPassword = (req, res) =>{
-        res.render("forgotPassword")
+        res.render("forgotPassword", {style: "forms.css"})
     }
 
 
     static renderReserPassword = (req, res) =>{
         const token = req.query.token;
 
-        res.render("resetPassword", {token})
+        res.render("resetPassword", {token}, {style: "forms.css"})
     }
 };

@@ -13,46 +13,54 @@ export const initializePassport = () =>{
     })
 
 
-    passport.deserializeUser(async (id, done) =>{
-        let user = await UsersService.getUserById(id)
-        done(null, user)
+    passport.deserializeUser( async(id, done) =>{
+        try {
+            let user = await UsersService.getUserById(id)
+            done(null, user)
+        }
+        catch (error) {
+            console.log(error.message)
+            return done(error)
+        }
     })
 
 
 
-    passport.use("githubStrategy", new GitHubStrategy(
-        {
-            clientID: config.github.clientId || "Iv1.4fcd41fa39808e5d",
-            clienteSecret: config.github.clienteSecret,
-            callbackUrl: config.github.callBackUrl || "http://localhost:8080/api/sessions/githubcallback"
-        },
-        async(accessToken, refreshToken, profile, done) =>{
+    passport.use("githubStrategy", new GitHubStrategy({
+            clientID: "Iv1.4fcd41fa39808e5d",
+            clientSecret: "e83a190c317d2ddbc41cd89f6ba98ce575416f81",
+            callbackUrl: "http://localhost:8080/api/sessions/githubcallback"
+        }, async(accessToken, refreshToken, profile, done) =>{
             try {
-                console.log(profile)
-                let user = await UsersService.getUserByEmail({email:profile._json.email})
+                console.log(profile);
+                if (profile._json.email === null) {
+                    console.log("The user has not added email to their GitHub");
+                }
+                let user = await UsersService.getUserByEmail({email:profile._json.email});
                 if(!user){
                     const newUser ={
                         first_name: profile._json.name,
                         email: profile._json.email,
-                        password: ""
-                    }
-                    let userCreated = await UsersService.createUser(newUser)
-                    return done(null, userCreated)  
+                        password: "",
+                        profile: profile._json.avatar_url
+                    };
+                    let userCreated = await UsersService.createUser(newUser);
+                    return done(null, userCreated);
                 }
                 else{
-                    done(null, user)
+                    done(null, user);
                 }
             }
             catch (error) {
-                return done(error)             
+                console.log(error.message);
+                return done(error);
             }
         }
     ))
 
 
 
-    passport.use("registerStrategy", new LocalStrategy(
-        {
+    passport.use("registerStrategy", new LocalStrategy({
             usernameField:"email",
             passReqToCallback:true
         },
@@ -81,6 +89,7 @@ export const initializePassport = () =>{
                 return done(null, userCreated)
             }
             catch (error) {
+                console.log(error.message)
                 return done(error)
             }
         }
@@ -88,8 +97,7 @@ export const initializePassport = () =>{
 
 
 
-    passport.use("loginStrategy", new LocalStrategy(
-        {
+    passport.use("loginStrategy", new LocalStrategy({
             usernameField:"email"
         },
         async(username, password, done) =>{
@@ -109,8 +117,9 @@ export const initializePassport = () =>{
                 }
             }
             catch (error) {
+                console.log(error.message)
                 return done(error)
             }
         }
     ))
-}
+};

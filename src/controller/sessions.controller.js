@@ -5,7 +5,8 @@ import { validateToken, createHash } from "../utils.js"
 
 export class SessionController{
     static successRegister = (req, res) =>{
-        return res.render("login")
+        const user = req.body
+        return res.render("profile", {user}, {style: "forms.css"})
     }
 
 
@@ -15,7 +16,7 @@ export class SessionController{
 
 
     static successLogin = (req, res) =>{
-        const user = req.body
+        let user = req.body
         return res.render("profile", {user})
     }
 

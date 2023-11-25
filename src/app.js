@@ -40,7 +40,6 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 
-
 //Server http
 const httpServer = app.listen(port, ()=> console.log("Listen Server in port: ", port))
 
@@ -56,7 +55,6 @@ app.set('views', path.join(__dirname,"/views"));
 
 //Configuracion de Passport
 initializePassport()
-
 //Configuracion de sessions
 app.use(session({
     store:MongoStore.create({
@@ -66,7 +64,6 @@ app.use(session({
     resave:true,
     saveUninitialized:true
 }))
-
 app.use(passport.session())
 app.use(passport.initialize())
 
