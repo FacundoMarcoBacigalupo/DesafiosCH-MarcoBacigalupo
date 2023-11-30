@@ -2,18 +2,20 @@
 <h3 style="color: green">{{messagge}}</h3>
 <h3 style="color: brown">{{error}}</h3>
 
+<hr>
+<br>
 
 <form method="post" action="/api/sessions/login">
-    <input type="email" placeholder="Email" name="email" />
+    <input class="text" type="email" placeholder="Email" name="email" />
         <br/>
-    <input type="password" placeholder="Password" name="password" />
+    <input class="text" type="password" placeholder="Password" name="password" />
         <br/>
-    <button>Login</button>
+    <button class="efect">Login</button>
 </form>
 
 <hr>
 <br/>
 
 <div>
-    <a href="/api/sessions/forgot-password">Forgot password</a>
+    <a href="/forgot-password"><button class="efect">Forgot password</button></a>
 </div>

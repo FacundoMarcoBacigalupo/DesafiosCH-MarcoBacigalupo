@@ -1,24 +1,26 @@
 <h1><strong>Register</strong></h1>
 <h3 style="color: brown">{{error}}</h3>
 
+<hr>
+<br>
 
 <form method="post" action="/api/sessions/register" enctype="multipart/form-data">
-    <input type="text" placeholder="firts name" name="first_name" />
+    <input class="text" type="text" placeholder="firts name" name="first_name" />
         <br/>
-    <input type="text" placeholder="last name" name="last_name" />
+    <input class="text" type="text" placeholder="last name" name="last_name" />
         <br/>
-    <input type="email" placeholder="email" name="email" />
+    <input class="text" type="email" placeholder="email" name="email" />
         <br/>
-    <input type="password" placeholder="password" name="password" />
+    <input class="text" type="password" placeholder="password" name="password" />
         <br/><br/>
-    <input type="file" name="profile" />
+    <input class="efect" type="file" name="profile" />
         <br/>
-    <button>Register</button>
+    <button class="efect">Register</button>
 </form>
 
 <hr>
 <br>
 
 <div>
-    <a href="/api/sessions/github"><button>Register with GitHub</button></a>
+    <a href="/api/sessions/github"><button class="efect">Register with GitHub</button></a>
 </div>

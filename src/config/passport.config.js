@@ -9,30 +9,30 @@ import { UsersService } from "../service/users.service.js";
 
 export const initializePassport = () =>{
     passport.serializeUser((user, done) =>{
-        done(null, user._id)
-    })
+        done(null, user._id);
+    });
 
 
-    passport.deserializeUser( async(id, done) =>{
+    passport.deserializeUser(async (id, done) =>{
         try {
             let user = await UsersService.getUserById(id)
-            done(null, user)
+            done(null, user);
         }
         catch (error) {
             console.log(error.message)
-            return done(error)
+            done(error)
         }
-    })
+    });
 
 
 
     passport.use("githubStrategy", new GitHubStrategy({
-            clientID: "Iv1.4fcd41fa39808e5d",
-            clientSecret: "e83a190c317d2ddbc41cd89f6ba98ce575416f81",
-            callbackUrl: "http://localhost:8080/api/sessions/githubcallback"
-        }, async(accessToken, refreshToken, profile, done) =>{
+            clientID: config.github.clientID,
+            clientSecret: config.github.clientSecret,
+            callbackUrl: config.github.callbackUrl
+        },
+        async(accessToken, refreshToken, profile, done) =>{
             try {
-                console.log(profile);
                 if (profile._json.email === null) {
                     console.log("The user has not added email to their GitHub");
                 }
@@ -53,7 +53,7 @@ export const initializePassport = () =>{
             }
             catch (error) {
                 console.log(error.message);
-                return done(error);
+                done(error);
             }
         }
     ))
@@ -67,16 +67,17 @@ export const initializePassport = () =>{
         async(req, username, password, done) =>{
             try {
                 const { first_name } = req.body
+                
                 const user = await UsersService.getUserByEmail(username)
                 if(user){
                     return done(null, false)
                 }
-
+                
                 let role = "user"
                 if(username.endsWith("@coder.com")){
                     role = "admin"
                 }
-
+                
                 const newUser ={
                     first_name: first_name,
                     email: username,
@@ -84,13 +85,12 @@ export const initializePassport = () =>{
                     role: role,
                     profile: req.file.filename
                 }
-
                 let userCreated = await UsersService.createUser(newUser)
                 return done(null, userCreated)
             }
             catch (error) {
-                console.log(error.message)
-                return done(error)
+                console.log("Error in registerStrategy",error.message)
+                done(error)
             }
         }
     ))
@@ -104,21 +104,22 @@ export const initializePassport = () =>{
             try {
                 const user = await UsersService.getUserByEmail(username)
                 if(!user){
-                    done(null, false)
+                    console.log("User does not exist")
+                    return done(null, false)
                 }
 
-                if(isValidPassword(user, password)){
+                if(!isValidPassword(user, password)){
+                    return done(null, false)
+                }
+                else{
                     user.last_connection = new Date()
                     await UsersService.updateUser(user._id, user)
                     return done(null, user)
                 }
-                else{
-                    return done(null, false)
-                }
             }
             catch (error) {
                 console.log(error.message)
-                return done(error)
+                done(error)
             }
         }
     ))

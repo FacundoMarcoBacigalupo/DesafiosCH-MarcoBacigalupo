@@ -4,13 +4,14 @@ export class ProductsController{
     static getProducts = async(req, res) =>{
         try {
             const limit = req.query.limit;
-            const products = await ProductService.getProducts()
+            const { count, products } = await ProductService.getProducts()
+
             if(limit){
-                const result = products.filter(prod => prod.id <= limit)
-                res.json({status:"Success", data: result})
+                const result = products.filter((prod, index) => index < limit);
+                res.json({status:"Success", count, data: result})
             }
             else{
-                res.json({status:"Success", data: products})
+                res.json({status:"Success", count,  data: products})
             }
         }
         catch (error) {
@@ -77,10 +78,10 @@ export class ProductsController{
 
     static deleteProduct = async(req, res) =>{
         try {
-            let productID = parseInt(req.params.pid)
+            let pid = parseInt(req.params.pid)
             let product = await ProductService.getProductById(pid)
             if(req.user.role === "premium" && product.owner.toString() === req.user._id.toString() || req.user.role === "admin"){
-                await ProductService.deleteProduct(productID)
+                await ProductService.deleteProduct(pid)
                 res.json({status: "Success", message:"Product eliminated"})
             }
             else{

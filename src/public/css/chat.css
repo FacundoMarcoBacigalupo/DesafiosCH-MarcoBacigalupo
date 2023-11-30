@@ -28,24 +28,42 @@ h1::first-letter{
 
 
 
-#chatBox{
-    font-size: 18px;
-    background-color: rgb(189, 189, 189);
-    color: rgb(14, 14, 14);
-    border: 2px solid rgb(37, 37, 37);
-    width: 60%;
-}
-
-
-
 #chat{
     margin: auto;
     color: rgb(189, 189, 189);
     border: 1px solid rgb(189, 189, 189);
     width: 60%;
     margin-top: 20px;
+    border-radius: 10px;
 }
 
+#chatBox{
+    background-color: rgb(37, 37, 37);
+    border: 1ex solid none;
+    border-top-width: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0;
+    color: rgb(189, 189, 189);
+    outline: 7px solid rgb(37, 37, 37);
+    height: 50px;
+    width: 600px;
+    font-size: 20px;
+    text-align: left;
+    transition: all 1s;
+    font-weight: 600;
+}
+
+#chatBox:hover {
+    border-top-width: 0.2em;
+    background-color: rgb(189, 189, 189);
+    color: rgb(37, 37, 37);
+}
+
+#chatBox:focus {
+    border-top-width: 0.2em;
+    background-color: rgb(189, 189, 189);
+}
 
 
 p{

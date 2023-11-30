@@ -15,15 +15,15 @@ router.get("/:cid", CartsController.getCartById);
 router.get("/populate/:cid", CartsController.getCartWithPopulate);
 
 
+//Get product in cart
+router.get("/:cid/product/:pid", checkUserAuthenticate, checkRole(["admin"]), CartsController.getProductInCartById);
+
+
 //Create Cart
 router.post("/", checkUserAuthenticate, checkRole(["admin"]), CartsController.createCart);
 
 
 router.post("/:cid/purchase", TicketsController.createTicket);
-
-
-//Get product in cart
-router.post("/:cid/product/:pid", checkUserAuthenticate, checkRole(["admin"]), CartsController.getProductInCartById);
 
 
 //Update cart by id

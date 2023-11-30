@@ -50,29 +50,30 @@ export const validateToken = async(token) =>{
 
 
 
+
 const checkValidFields = (body) =>{
-    const { first_name, email, password } = body
+    const { first_name, email, password } = body;
 
     if(!first_name || !email || !password){
-        return false
+        return false;
     }
-    return true
+    return true;
 }
 
 const multerProfileFilter = (req, file, cb) =>{
-    let valid = checkValidFields(req.body)
+    let valid = checkValidFields(req.body);
 
-    if(valid === true){
-        cb(null, true)
+    if(valid){
+        cb(null, true);
     }
     else{
-        cb(null, false)
+        cb(null, false);
     }
 }
 
 
 
-
+//Save profile img
 const profileStorage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, path.join(__dirname,"/multer/users/img"))
@@ -85,6 +86,7 @@ export const uploaderProfile = multer({storage:profileStorage, fileFilter:multer
 
 
 
+//Save product img
 const productsStorage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, path.join(__dirname,"/multer/products/img"))
@@ -97,6 +99,7 @@ export const uploaderProducts = multer({storage:productsStorage})
 
 
 
+//Save documents
 const documentsStorage = multer.diskStorage({
     destination: function(req, file, cb){
         cb(null, path.join(__dirname,"/multer/products/documents"))

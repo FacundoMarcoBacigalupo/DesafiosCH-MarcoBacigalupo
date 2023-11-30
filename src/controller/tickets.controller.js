@@ -7,7 +7,7 @@ export class TicketsController{
     static createTicket = async(req, res) =>{
         try {
             const cardId = req.params.cid
-            const card = await CartsService.getCartById(cardId)
+            const cart = await CartsService.getCartById(cardId)
             const productCart = cart.products
 
             let purchaseProducts = []
@@ -31,6 +31,7 @@ export class TicketsController{
             }
 
             const ticketCreted = await TicketsService.createTickets(newTicket)
+            res.json({status: "Succes", payload: ticketCreted})
         }
         catch (error) {
             console.log(error.message)

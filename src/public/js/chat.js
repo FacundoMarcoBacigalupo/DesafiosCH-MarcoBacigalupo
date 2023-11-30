@@ -35,7 +35,7 @@ chatbox.addEventListener("keyup", (event)=>{
 socketClient.on("messageHistory", (dataServer)=>{
     let messageElmts = "";
     dataServer.forEach(item=>{
-        messageElmts = messageElmts + `<p><span>${item.user}</span>: ${item.message}</p>`
+        messageElmts = messageElmts + `<p style="border-bottom: 1px solid rgb(43, 43, 43); margin-bottom: 80px"><span>${item.user}</span>: ${item.message}</p>`
     });
 
     chat.innerHTML = messageElmts;

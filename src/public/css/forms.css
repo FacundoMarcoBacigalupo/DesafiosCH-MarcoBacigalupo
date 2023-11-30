@@ -26,6 +26,12 @@ h1::first-letter{
     font-size: 60px;
 }
 
+h2{
+    font-size: 30px;
+    font-weight: 600;
+    color: rgb(189, 189, 189);
+}
+
 p{
     font-size: 30px;
     font-weight: 700;
@@ -41,13 +47,6 @@ form{
 }
 
 
-input{
-    font-size: 20px;
-    font-weight: bold;
-    background-color: rgb(14, 14, 14);
-    color: rgb(189, 189, 189);
-}
-
 
 button{
     margin: 10px;
@@ -56,4 +55,64 @@ button{
     font-weight: bold;
     background-color: rgb(189, 189, 189);
     color: rgb(14, 14, 14);
+}
+
+
+
+.text{
+    background-color: rgb(37, 37, 37);
+    border: 1ex solid none;
+    border-top-width: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0;
+    color: rgb(243, 243, 243);
+    outline: 7px solid rgb(37, 37, 37);
+    height: 50px;
+    width: 600px;
+    font-size: 20px;
+    text-align: left;
+    transition: all 1s;
+    font-weight: 600;
+}
+
+
+.text:hover {
+    border-top-width: 0.2em;
+    background-color: rgb(189, 189, 189);
+    color: rgb(37, 37, 37);
+}
+
+
+.text:focus {
+    border-top-width: 0.2em;
+    background-color: rgb(189, 189, 189);
+}
+
+
+.efect{
+    cursor: pointer;
+    background-image: linear-gradient(to right, rgb(37, 37, 37) 0%, #434343 51%, rgb(37, 37, 37) 100%);
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    background-size: 200% auto;
+    color: rgb(189, 189, 189);     
+    box-shadow: 0 0 10px rgb(37, 37, 37);
+    border-radius: 10px;
+    border: 0
+}
+
+
+.efect:hover{
+    background-position: right center;
+    color: rgb(189, 189, 189);
+    text-decoration: none;
+    transition: all .9s
+}
+
+
+.efect:active{
+    scale: 0.8;
+    transition: all .8s
 }

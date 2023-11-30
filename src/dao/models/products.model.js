@@ -29,7 +29,7 @@ const productSchema = new mongoose.Schema({
     category:{
         type:String,
         required: true,
-        enum:["Zapatilla", "Ropa"]
+        enum:["Shoes", "Clothes"]
     },
 
     thumbnail:String,

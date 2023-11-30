@@ -1,24 +1,18 @@
 <h1><strong>Products</strong></h1>
-<h3><strong>{{error}}</strong></h3>
+<h3 style="color: brown">{{error}}</h3>
 
-
-<section>
-    <h3>Welcome{{user.first_name}}</h3>
-        <br/>
-    <h3>Email:{{user.email}}</h3>
-
-    <a href="/api/sessions/logout">Close session</a>
-</section>
-
+<hr>
+<br>
 
 {{#if payload}}
-    <h4><strong>List of products</strong></h4>
+    <h3><strong>List of products</strong></h3>
 
     <ul>
         {{#each payload}}
             <li>Title: {{this.title}}</li>
             <li>Price: {{this.price}}</li>
-            <button onclick="addToCart(`{{this.id}}`)">Add to cart</button>
+            <li>Stock: {{this.stock}}</li>
+            <button class="btn" data-product-id="{{this._id}}">Add to cart</button>
         {{/each}}
     </ul>
 
@@ -27,7 +21,7 @@
         <a href={{prevLink}}>Prev</a>
     {{/if}}
 
-    {{page}}
+    <h4>{{page}}</h4>
 
     {{#if hasNextPage}}
         <a href={{nextLink}}>Next</a>
@@ -35,7 +29,7 @@
 
 
 {{else}}
-    <h4><strong>Not found products</strong></h4>
+    <h3><strong>Not found products</strong></h3>
 {{/if}}
 
 

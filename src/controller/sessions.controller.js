@@ -4,25 +4,33 @@ import { validateToken, createHash } from "../utils.js"
 
 
 export class SessionController{
-    static successRegister = (req, res) =>{
+    static successRegister = async(req, res) =>{
         const user = req.body
-        return res.render("profile", {user}, {style: "forms.css"})
+        return res.render("profile", {user})
     }
 
 
-    static failRegister = (req, res) =>{
-        return res.render("register", {message:"Can not register the use"}, {style: "forms.css"})
+    static failRegister = async(req, res) =>{
+        return res.send({status:"Error", message:"Failed the strategy"})
     }
 
 
-    static successLogin = (req, res) =>{
-        let user = req.body
+    static successLogin = async(req, res) =>{
+        const user = req.user
+        if(!req.user){
+            return res.status(400).send({status:"Error", message:"Invalid credentials"})
+        }
+        req.session.user = {
+            first_name: req.user.first_name,
+            last_name:  req.user.last_name,
+            email: req.user.email
+        }
         return res.render("profile", {user})
     }
 
 
     static failLogin = (req, res) =>{
-        return res.render("login", {message:"Can not login the user"}, {style: "forms.css"})
+        return res.send({status:"Error", message:"Failed the strategy"})
     }
 
 
@@ -40,14 +48,15 @@ export class SessionController{
             const user = req.user
             user.last_connection = new Date()
             await UsersService.updateUser(user._id, user)
-        
+            
             await req.session.destroy(error =>{
                     if(error) return res.render("login", {user: req.session.userInfo, error:"Cannot close de session"}, {style: "forms.css"})
                 })
+            res.json({status:"Success", message:"Logout successfully"});
         }
         catch (error) {
             console.log(error.message)
-            return res.render("login", {user:req.user, error:"Cannot close de session"}, {style: "forms.css"})
+            res.status(500).json({ status: "Error", message: "Cannot close the session" });
         }
     }
 
@@ -57,15 +66,16 @@ export class SessionController{
             const { email } = req.body
             const user = UsersService.getUserByEmail(email)
             if(!user){
-                res.send({status:"Error", message:"Can not restore the password"})
+                res.json({status:"Error", message:"User do not found"})
             }
             const token = generateEmailWithToken(email, 3*60)
             await emailRecovery(req, email, token)
-
-            res.send("email send, back to the <a href='/'>home</a>")
-        } catch (error) {
+            
+            res.send(`<h2 style="color: rgb(77, 77, 77)">Email send to <span style="color: #000">${email}</span></h2> <br> <h3 style="color: rgb(77, 77, 77)">Back to the <a href='/'>home</a></h3>`)
+        }
+        catch (error) {
             console.log(error.message)
-            res.send({status:"Error", message:"Can not restore the password"})
+            res.json({status:"Error", message:"Can not restore the password"})
         }
     }
 
@@ -80,15 +90,19 @@ export class SessionController{
                 if(user){
                     user.password = createHash(newPassword)
                     await UsersService.updateUser(user._id, user)
-                    res.send("Password updated, <a href='/login'>Go to login</a>")
+                    res.send(`<h2 style="color: rgb(77, 77, 77)">Password updated</h2> <br> <h3 style="color: rgb(77, 77, 77)"><a href='/login'>Go to login</a></h3>`)
+                }
+                else{
+                    res.send(`<h2 style="color: rgb(77, 77, 77)">User not found</h2>`)
                 }
             }
             else{
-                return res.send("The token expired, <a href='/forgot-password'>try again<a>")
+                return res.send(`<h2 style="color: rgb(77, 77, 77)">The token expired</h2> <br> <h3 style="color: rgb(77, 77, 77)"><a href='/forgot-password'>Try again<a></h3>`)
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.log(error.message)
-            res.send("password could not be reset, <a href='/forgot-password'>try again<a>")
+            res.send(`<h2>Password could not be reset</h2> <br> <h3><a href='/forgot-password'>Try again<a></h3>`)
         }
     }
 }

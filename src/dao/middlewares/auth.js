@@ -11,7 +11,6 @@ export const checkRole = (roles) =>{
 
 
 
-
 export const checkUserAuthenticate = (req, res, next) =>{
     if(req.user){
         next();
@@ -20,7 +19,6 @@ export const checkUserAuthenticate = (req, res, next) =>{
         res.status(403).json({status:"Error", message:"You do not have permission"})
     }
 };
-
 
 
 

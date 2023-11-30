@@ -1,12 +1,14 @@
 {
-  "name": "proyecto-back-end",
+  "name": "proyecto-backend",
   "version": "1.0.0",
   "description": "",
   "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon src/app.js",
-    "test": "mocha tests/products.test.js --exit"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "mocha tests/products.test.js --exit",
+    "script": "node src/scripts/mongo.scripts.js"
   },
   "keywords": [],
   "author": "Facundo Marco Bacigalupo",
@@ -20,7 +22,6 @@
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
     "express-session": "^1.17.3",
-    "handlebars": "^4.7.8",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.4.1",
     "mongoose-paginate-v2": "^1.7.31",
