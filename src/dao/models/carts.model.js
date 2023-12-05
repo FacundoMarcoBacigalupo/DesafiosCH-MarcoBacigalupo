@@ -5,7 +5,7 @@ import { cartsCollection } from '../../config/constants/constants.js'
 
 
 const cartsSchema = new mongoose.Schema({
-    product:{
+    products:{
         type:[
             {
                 quantity:{
@@ -13,12 +13,11 @@ const cartsSchema = new mongoose.Schema({
                     default:1
                 },
                 productId:{
-                    type:mongoose.Schema.Types.ObjectId,
+                    type:mongoose.Types.ObjectId,
                     ref:productCollection
                 }
             }
         ],
-
         default:[]
     }
 })

@@ -6,32 +6,34 @@ import { ProductService } from "../service/products.service.js"
 export class TicketsController{
     static createTicket = async(req, res) =>{
         try {
-            const cardId = req.params.cid
-            const cart = await CartsService.getCartById(cardId)
-            const productCart = cart.products
-
+            let cardId = req.params.cid
+            let cart = await CartsService.getCartById(cardId)
+            let productCart = cart.products
+            
             let purchaseProducts = []
             let rejectedProducts = []
-
-            for(let i = 0; i < productCart.leght; i++){
-                let product = ProductService.getProductById(productCart[i].productId)
+            
+            for(let i = 0; i < productCart.length; i++){
+                let product = await ProductService.getProductById(productCart[i].productId)
                 if(product.quantity < product.stock){
-                    purchaseProducts
+                    purchaseProducts.push(product)
                 }
                 else{
-                    rejectedProducts
+                    rejectedProducts.push(product)
                 }
             }
-
+            
+            console.log("purchase:",purchaseProducts, "reject:",rejectedProducts)
+            
             const newTicket = {
-                code,
-                purchase_datatime: new Date(),
-                amount,
+                code: `${new Date().toDateString()}-code-${req.user.email}`,
+                purchase_datetime: new Date(),
+                amount: purchaseProducts.length,
                 purchaser: req.user.email
             }
-
+            
             const ticketCreted = await TicketsService.createTickets(newTicket)
-            res.json({status: "Succes", payload: ticketCreted})
+            res.json({status: "Success", payload: ticketCreted})
         }
         catch (error) {
             console.log(error.message)

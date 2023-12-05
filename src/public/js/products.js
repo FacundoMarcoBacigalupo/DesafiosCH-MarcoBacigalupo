@@ -1,14 +1,20 @@
 let btns = document.getElementsByClassName("btn");
 
 
-function addToCart(productId) {
-    fetch(`http://localhost:8080/api/carts/:${productId}`)
+async function addToCart() {
+    try {
+        let result = await fetch("http://localhost:8080/api/carts")
+        console.log("Sucess", result)
+    }
+    catch (error) {
+        console.log(error.message)
+    }
 };
 
 
-for(let i = 0; i < btns.length; i++){
-    btns[i].addEventListener("click", function() {
-        let productId = this.getAttribute("data-product-id");
-        addToCart(productId);
-    }); 
-}
+
+Array.from(btns).forEach(btn => {
+    btn.addEventListener("click", function() {
+        addToCart()
+    })
+});

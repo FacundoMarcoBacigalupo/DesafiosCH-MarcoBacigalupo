@@ -40,6 +40,7 @@ describe("Ecommerce API Test", function(){
             const response = await requester.get("/api/products/");
             expect(response.body).to.have.property("status");
             expect(response.body.status).to.be.equal("Success");
+            expect(response.body).to.have.property("title");
         });
 
 

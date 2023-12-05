@@ -51,8 +51,8 @@ export class CartsController{
 
     static getCartById = async(req, res) =>{
         try {
-            let cId = parseInt(req.params.cid)
-            let cart = await CartsService.getCartById(cId)
+            let cartId = req.params.cid
+            let cart = await CartsService.getCartById(cartId)
             if(!cart){
                 res.send({status:"Error", data: "Cart no exist"})
             }
@@ -151,22 +151,34 @@ export class CartsController{
 
     static updateProductInCartById = async(req, res) =>{
         try {
-            let cartId = parseInt(req.params.cid)
-            let productId = parseInt(req.params.pid)
+            let cartId = req.params.cid
+            let productId = req.params.pid
 
             let cart = await CartsService.getCartById(cartId)
             if(!cart){
                 return res.send({status: "Error", message: "Cart no found"})
             }
-
             let product = await ProductService.getProductById(productId)
             if(!product){
-                return res.send({status: "Error", message: "Product no found"})
+                return res.send({status: "Error", message: "Product in cart not found"})
             }
 
-            cart.product.push(productId)
-            let result = await CartsService.updateCart(cartId, cart)
-            res.send({status: "Success", data: result, message: "Product updated"})
+            if(cart.products.find(product => product.id === productId)){
+                cart.products.type.quantity + 1
+
+                let result = await CartsService.updateCart(cartId, cart)
+                res.send({status: "Success", data: result, message: "Product in cart updated"})
+            }
+            else{
+                const newProduct = {
+                    productId:productId,
+                    quantity:1
+                }
+                cart.products.push(newProduct)
+
+                let result = await CartsService.updateCart(cartId, cart)
+                res.send({status: "Success", data: result, message: "Product in cart updated"})
+            }
         }
         catch (error) {
             console.log(error.message)

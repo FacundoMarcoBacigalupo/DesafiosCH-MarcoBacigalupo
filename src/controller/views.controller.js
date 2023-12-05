@@ -80,7 +80,7 @@ export class ViewsController{
             let cartId = parseInt(req.params.cid)
             let cart = await cartDao.getCartById(cartId)
             
-            res.render("cartsId", {cart}, { style: "cartsId.css" })
+            res.render("cartsId", cart, { style: "cartsId.css" })
         }
         catch (error) {
             console.log(error.message)

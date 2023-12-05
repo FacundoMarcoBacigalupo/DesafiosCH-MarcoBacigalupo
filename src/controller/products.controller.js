@@ -23,7 +23,7 @@ export class ProductsController{
 
     static getProductsById = async(req, res) =>{
         try {
-            let pid = parseInt(req.params.pid)
+            let pid = req.params.pid
             let productId = await ProductService.getProductById(pid)
     
             if(!productId){
@@ -45,7 +45,7 @@ export class ProductsController{
             const productInfo = req.body;
             productInfo.owner = req.user._id;
             productInfo.thumbnail = req.file.filename
-    
+            
             const productCreated = await ProductService.createProduct(productInfo)
             res.json({status:"Success", data: productCreated, message:"Created product"})
         }
@@ -58,10 +58,10 @@ export class ProductsController{
 
     static updateProduct = async(req, res) =>{
         try {
-            let pid = parseInt(req.params.pid)
+            let pid = req.params.pid
             let product = req.body
             let productUpdate = await ProductService.updateProduct(pid, product)
-    
+            
             if(!productUpdate){
                 res.json({status:"Error", message: "Not exist product with that ID"})
             }
@@ -78,7 +78,7 @@ export class ProductsController{
 
     static deleteProduct = async(req, res) =>{
         try {
-            let pid = parseInt(req.params.pid)
+            let pid = req.params.pid
             let product = await ProductService.getProductById(pid)
             if(req.user.role === "premium" && product.owner.toString() === req.user._id.toString() || req.user.role === "admin"){
                 await ProductService.deleteProduct(pid)

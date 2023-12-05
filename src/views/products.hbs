@@ -1,8 +1,42 @@
 <h1><strong>Products</strong></h1>
 <h3 style="color: brown">{{error}}</h3>
 
+
 <hr>
 <br>
+
+
+    <h3><strong>Create a product (only for admin and premium)</strong></h3>
+    <form method="post" action="/api/products/" enctype="multipart/form-data">
+        <input class="text" type="text" placeholder="Write the title" name="title">
+            <br/>
+        <input class="text" type="text" placeholder="Write the description" name="description">
+            <br/>
+        <input class="text" type="text" placeholder="Write the code" name="code">
+            <br/>
+        <label>
+        Write the price
+        <input class="text" min="0" type="number" name="price">
+        </label>
+            <br/>
+        <label>
+        Write the stock
+        <input class="text" min="0" type="number" name="stock">
+        </label>
+            <br/>
+        <input class="text" type="text" placeholder="Write the category available (Shoes, Clothes)" name="category">
+            <br/> 
+        <input class="efect" type="file" name="thumbnail">
+            <br/>
+        <button class="efect">Create product</button>
+    </form>
+
+
+<hr>
+<br>
+<br>
+
+
 
 {{#if payload}}
     <h3><strong>List of products</strong></h3>
@@ -10,12 +44,14 @@
     <ul>
         {{#each payload}}
             <li>Title: {{this.title}}</li>
+            <li>Description: {{this.description}}</li>
             <li>Price: {{this.price}}</li>
             <li>Stock: {{this.stock}}</li>
-            <button class="btn" data-product-id="{{this._id}}">Add to cart</button>
+            <button class="btn efect" data-product-id="{{this._id}}">Add to cart</button>
+            <hr>
+            <br/>
         {{/each}}
     </ul>
-
 
     {{#if hasPrevPage}}
         <a href={{prevLink}}>Prev</a>
@@ -31,6 +67,8 @@
 {{else}}
     <h3><strong>Not found products</strong></h3>
 {{/if}}
+
+<br/>
 
 
 <script src="/js/products.js"></script>

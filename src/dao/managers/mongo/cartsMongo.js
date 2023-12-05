@@ -14,7 +14,7 @@ export class CartsMongo{
         }
         catch (error) {
             console.log(error.message)
-            throw new Error("Error with created the product")
+            throw new Error("Error with created the cart")
         }
     }
 
@@ -25,9 +25,9 @@ export class CartsMongo{
         try {
             const updateCart = await this.model.findByIdAndUpdate(id, updateCamp, {new:true})
             if(!updateCart){
-                throw new Error("Product not exist")
-            }
-            return updateCart
+                throw new Error("Cart not exist")
+            };
+            return updateCart;
         }
         catch (error) {
             console.log(error.message)
@@ -37,15 +37,15 @@ export class CartsMongo{
 
 
 
-//Obtener todos los productos
+//Get all Carts
     async getCart() {
         try {
-            const products = await this.model.find()
-            return products
+            const carts = await this.model.find().lean()
+            return carts
         }
         catch (error) {
             console.log(error.message)
-            throw new Error("Error with get products")
+            throw new Error("Error with get the carts")
         }
     }
 
@@ -54,12 +54,15 @@ export class CartsMongo{
 //Obtener un carrito por Id
     async getCartById(id) {
         try {
-            const productId = await this.model.findById(id).lean()
-            return productId
+            const cart = await this.model.findById(id);
+            if(!cart){
+                throw new Error("The cart not found")
+            };
+            return cart;
         } 
         catch (error) {
             console.log(error.message)
-            throw new Error("Error with get product with that Id")
+            throw new Error("Error with get cart with that Id")
         }
     }
 

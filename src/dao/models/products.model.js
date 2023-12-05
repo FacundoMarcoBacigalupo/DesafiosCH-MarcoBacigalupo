@@ -32,8 +32,6 @@ const productSchema = new mongoose.Schema({
         enum:["Shoes", "Clothes"]
     },
 
-    thumbnail:String,
-
     owner:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"users"

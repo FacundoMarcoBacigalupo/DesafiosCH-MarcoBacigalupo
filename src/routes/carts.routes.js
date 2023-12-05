@@ -22,7 +22,7 @@ router.get("/:cid/product/:pid", checkUserAuthenticate, checkRole(["admin"]), Ca
 //Create Cart
 router.post("/", checkUserAuthenticate, checkRole(["admin"]), CartsController.createCart);
 
-
+//Create ticket for cart
 router.post("/:cid/purchase", TicketsController.createTicket);
 
 

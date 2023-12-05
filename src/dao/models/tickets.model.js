@@ -8,10 +8,10 @@ const ticketsSchema = new mongoose.Schema({
         required: true
     },
 
-    purchase_datatime: Date,
+    purchase_datetime: Date,
 
     amount:{
-        type: String,
+        type: Number,
         required: true
     },
 
