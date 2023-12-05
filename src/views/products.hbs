@@ -8,7 +8,7 @@
 
     <h3><strong>Create a product (only for admin and premium)</strong></h3>
     <form method="post" action="/api/products/" enctype="multipart/form-data">
-        <input class="text" type="text" placeholder="Write the title" name="title">
+        <input class="text" type="text" placeholder="Write the title" name="title" required>
             <br/>
         <input class="text" type="text" placeholder="Write the description" name="description">
             <br/>
@@ -16,15 +16,15 @@
             <br/>
         <label>
         Write the price
-        <input class="text" min="0" type="number" name="price">
+        <input class="text" min="0" type="number" name="price" required>
         </label>
             <br/>
         <label>
         Write the stock
-        <input class="text" min="0" type="number" name="stock">
+        <input class="text" min="0" type="number" name="stock" required>
         </label>
             <br/>
-        <input class="text" type="text" placeholder="Write the category available (Shoes, Clothes)" name="category">
+        <input class="text" type="text" placeholder="Write the category available (Shoes, Clothes)" name="category" required>
             <br/> 
         <input class="efect" type="file" name="thumbnail">
             <br/>
