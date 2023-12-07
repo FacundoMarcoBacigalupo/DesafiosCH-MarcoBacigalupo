@@ -10,7 +10,7 @@ export class ViewsController{
         }
         catch (error) {
             console.log(error.message)
-            res.send("<h3><strong>Error with load home</strong></h3>")
+            res.render("home", { style: "home.css", error:"Error with load home" })
         }
     };
 
@@ -30,12 +30,13 @@ export class ViewsController{
 
     static renderProducts = async(req, res) =>{
         try {
-            const { limit=10, page=1, stock, sort="asc", category } = req.query
+            let user = req.user
+            const { limit=5, page=1, stock, sort="asc", category } = req.query
             
             const stockValue = stock === 0 ? undefined : parseInt(stock)
             
             if(!["asc", "desc"].includes(sort)){
-                res.render("products", { style: "products.css" }, {error: "Order invalid"})
+                res.render("products", { style: "forms.css", error: "Order invalid"})
             }
             const sortValue = sort === "asc" ? 1 : -1;
             let query = {};
@@ -52,7 +53,7 @@ export class ViewsController{
             
             const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`
             
-            const resultProductsView = {
+            let resultProductsView = {
                 status:"Success",
                 payload:result.docs,
                 totalPages:result.totalPages,
@@ -65,26 +66,27 @@ export class ViewsController{
                 nextLink: result.hasNextPage ? `${baseUrl.replace(`page=${result.page}`, `page=${result.nextPage}`)}` : null
             }
             
-            res.render("products", resultProductsView)
+            res.render("products", {...resultProductsView, user, style: "forms.css"})
         }
         catch (error) {
             console.log(error.message)
-            res.render("products", {error: "Dates not render"})
+            res.render("products", { style: "forms.css", error: "Dates not render"})
         }
     };
 
 
 
-    static renderCartId = async(req, res) =>{
+    static renderCart = async(req, res) =>{
         try {
-            let cartId = parseInt(req.params.cid)
-            let cart = await cartDao.getCartById(cartId)
-            
-            res.render("cartsId", cart, { style: "cartsId.css" })
+            let user = req.user
+            let cartUserId = user.cartId
+            const cart = await cartDao.getCartById(cartUserId)
+
+            res.render("carts", {cart, user, style: "forms.css"})
         }
         catch (error) {
             console.log(error.message)
-            res.send("<h3><strong> Error with get the Cart </strong></h3>")
+            res.render("carts", {style: "forms.css", error:"Error with get the Cart"})
         }
     };
 
@@ -110,7 +112,7 @@ export class ViewsController{
 
     static renderProfile = (req, res) =>{
         let user = req.user
-        res.render("profile", {user}, {style: "forms.css"})
+        res.render("profile", {user, style: "forms.css"})
     };
 
 
@@ -123,6 +125,6 @@ export class ViewsController{
 
     static renderReserPassword = (req, res) =>{
         const token = req.query.token;
-        res.render("resetPassword", {token}, {style: "forms.css"})
+        res.render("resetPassword", {token, style: "forms.css"})
     }
 };

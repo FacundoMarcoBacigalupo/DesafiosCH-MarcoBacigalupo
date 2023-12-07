@@ -51,6 +51,7 @@ export class UsersMongo{
         }
     }
 
+
     async updateUser(userId, newUserInfo){
         try {
             const userUpdated = await this.model.findByIdAndUpdate(userId, newUserInfo,{new:true})
@@ -58,7 +59,20 @@ export class UsersMongo{
         }
         catch (error) {
             console.log(error.message)
-            throw new Error("Error with create user")
+            throw new Error("Error with update user")
+        }
+    }
+
+
+
+    async deleteUser(userId){
+        try {
+            const userDeleted = await this.model.findByIdAndDelete(userId)
+            return userDeleted
+        }
+        catch (error) {
+            console.log(error.message)
+            throw new Error("Error with delete user")
         }
     }
 }

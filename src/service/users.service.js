@@ -19,4 +19,9 @@ export class UsersService{
     static updateUser = async(userId, newUserInfo) =>{
         return await usersDao.updateUser(userId, newUserInfo)
     }
+
+
+    static deleteUser = async(userId) =>{
+        return await usersDao.deleteUser(userId)
+    }
 }

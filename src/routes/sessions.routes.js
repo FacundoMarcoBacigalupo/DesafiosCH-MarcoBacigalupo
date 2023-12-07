@@ -29,6 +29,10 @@ router.get("/githubcallback", passport.authenticate("githubStrategy", {failureRe
 router.get("/logout", SessionController.logout)
 
 
+//Route delete
+router.get("/deleteUser", SessionController.deleteUser)
+
+
 //Route forgot-password"
 router.post("/forgot-password", SessionController.forgotPassword)
 

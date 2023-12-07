@@ -42,6 +42,12 @@ p::first-letter{
 }
 
 
+li{
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(189, 189, 189);
+}
+
 form{
     margin-top: 50px;
 }

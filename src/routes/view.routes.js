@@ -19,7 +19,7 @@ router.get("/products", checkUserAuthenticate, ViewsController.renderProducts);
 
 
 //View CartId
-router.get("/carts:cid", ViewsController.renderCartId);
+router.get("/carts", checkUserAuthenticate, ViewsController.renderCart);
 
 
 //View register

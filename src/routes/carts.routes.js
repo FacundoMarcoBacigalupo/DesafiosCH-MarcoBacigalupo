@@ -16,22 +16,22 @@ router.get("/populate/:cid", CartsController.getCartWithPopulate);
 
 
 //Get product in cart
-router.get("/:cid/product/:pid", checkUserAuthenticate, checkRole(["admin"]), CartsController.getProductInCartById);
+router.get("/:cid/product/:pid", checkUserAuthenticate, checkRole(["admin", "premium"]), CartsController.getProductInCartById);
 
 
 //Create Cart
-router.post("/", checkUserAuthenticate, checkRole(["admin"]), CartsController.createCart);
+router.post("/:pid", checkUserAuthenticate, checkRole(["admin", "premium"]), CartsController.createCart);
 
 //Create ticket for cart
 router.post("/:cid/purchase", TicketsController.createTicket);
 
 
 //Update cart by id
-router.put("/:cid", checkUserAuthenticate, checkRole(["admin"]), CartsController.updateCartById);
+router.put("/:cid", checkUserAuthenticate, checkRole(["admin", "premium"]), CartsController.updateCartById);
 
 
 //Update product in cart
-router.put("/:cid/products/:pid", checkUserAuthenticate, checkRole(["admin"]), CartsController.updateProductInCartById);
+router.put("/:cid/products/:pid", checkUserAuthenticate, checkRole(["admin", "premium"]), CartsController.updateProductInCartById);
 
 
 

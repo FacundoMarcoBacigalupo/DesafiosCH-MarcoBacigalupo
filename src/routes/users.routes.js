@@ -23,7 +23,7 @@ router.put("/:uid", UsersController.updateUser)
 router.post("/premium/:uid", checkRole(["admin"]), UsersController.modifyRole)
 
 
-//
+//Documents
 router.put("/:uid/documents", uploaderDocuments.fields([
     {name:"identification", maxCount:1},
     {name:"domicile", maxCount:1},

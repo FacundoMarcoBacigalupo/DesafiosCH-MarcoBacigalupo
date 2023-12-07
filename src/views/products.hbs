@@ -5,29 +5,36 @@
 <hr>
 <br>
 
+<h2>Welcome <span style="color: rgb(77, 77, 77)">{{user.first_name}}</span></h2>
 
-    <h3><strong>Create a product (only for admin and premium)</strong></h3>
+
+    <h2>Create a product (only for admin and premium)</h2>
     <form method="post" action="/api/products/" enctype="multipart/form-data">
         <input class="text" type="text" placeholder="Write the title" name="title" required>
             <br/>
+
         <input class="text" type="text" placeholder="Write the description" name="description">
             <br/>
+
         <input class="text" type="text" placeholder="Write the code" name="code">
             <br/>
-        <label>
-        Write the price
-        <input class="text" min="0" type="number" name="price" required>
-        </label>
+        
+        <input class="text" min="0" placeholder="Write the price" type="number" name="price" required>
             <br/>
-        <label>
-        Write the stock
-        <input class="text" min="0" type="number" name="stock" required>
-        </label>
+
+        <input class="text" min="0" placeholder="Write the stock available" type="number" name="stock" required>
             <br/>
-        <input class="text" type="text" placeholder="Write the category available (Shoes, Clothes)" name="category" required>
+
+        <label>Choose one category</label>
+        <select class="efect" name="category" id="category" required>
+            <option value="Shoes">Shoes</option>
+            <option value="Clothes">Clothes</option>
+        </select>
             <br/> 
-        <input class="efect" type="file" name="thumbnail">
+
+        <input class="efect" type="file" name="thumbnail" required>
             <br/>
+
         <button class="efect">Create product</button>
     </form>
 
@@ -39,16 +46,19 @@
 
 
 {{#if payload}}
-    <h3><strong>List of products</strong></h3>
+    <h2>List of products</h2>
+    <br/>
 
     <ul>
         {{#each payload}}
-            <li>Title: {{this.title}}</li>
-            <li>Description: {{this.description}}</li>
-            <li>Price: {{this.price}}</li>
-            <li>Stock: {{this.stock}}</li>
-            <button class="btn efect" data-product-id="{{this._id}}">Add to cart</button>
-            <hr>
+            <div id={{this._id}}>
+                <li>Title: {{this.title}}</li>
+                <li>Description: {{this.description}}</li>
+                <li>Price: {{this.price}}</li>
+                <li>Stock: {{this.stock}}</li>
+                <button class="btn efect" data-product-id="{{this._id}}">Add to cart</button>
+            </div>
+            <br>
             <br/>
         {{/each}}
     </ul>
@@ -57,7 +67,7 @@
         <a href={{prevLink}}>Prev</a>
     {{/if}}
 
-    <h4>{{page}}</h4>
+    <h3>{{page}}</h3>
 
     {{#if hasNextPage}}
         <a href={{nextLink}}>Next</a>
@@ -65,7 +75,7 @@
 
 
 {{else}}
-    <h3><strong>Not found products</strong></h3>
+    <h2>Not found products</h2>
 {{/if}}
 
 <br/>
