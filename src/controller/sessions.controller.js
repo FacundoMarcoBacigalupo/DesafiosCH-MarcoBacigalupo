@@ -79,6 +79,7 @@ export class SessionController{
         try {
             const { email } = req.body
             const user = UsersService.getUserByEmail(email)
+            
             if(!user){
                 res.json({status:"Error", message:"User do not found"})
             }

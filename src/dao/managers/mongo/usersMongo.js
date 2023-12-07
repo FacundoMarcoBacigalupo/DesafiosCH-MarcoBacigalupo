@@ -35,6 +35,21 @@ export class UsersMongo{
     }
 
 
+
+    async getUsers(){
+        try {
+            let users = await this.model.find().lean()
+            return users
+        }
+        catch (error) {
+            console.log(error.message)
+            throw new Error("Error with get user with that ID")
+        }
+    }
+
+
+
+
     async getUserById(userId){
         try {
             let user = await this.model.findById(userId).lean()

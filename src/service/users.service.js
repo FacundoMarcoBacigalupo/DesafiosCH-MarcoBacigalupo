@@ -1,6 +1,11 @@
 import { usersDao } from "../dao/factory.js";
 
 export class UsersService{
+    static getUsers = async() =>{
+        return await usersDao.getUsers()
+    }
+
+
     static createUser = async(newUser) =>{
         return await usersDao.createUser(newUser)
     }

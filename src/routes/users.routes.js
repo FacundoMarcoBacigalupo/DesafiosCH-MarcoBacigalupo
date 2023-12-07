@@ -7,6 +7,10 @@ import { uploaderDocuments } from "../utils.js"
 const router = Router()
 
 
+//Get all users
+router.get("/getUsers", UsersController.getUsers)
+
+
 //Get user by id
 router.get("/:uid", UsersController.getUserById)
 

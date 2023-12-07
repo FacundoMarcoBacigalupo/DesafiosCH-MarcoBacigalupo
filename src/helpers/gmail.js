@@ -29,3 +29,25 @@ export const emailRecovery = async(req, email, emailToken) =>{
         console.log(error.message);
     }
 }
+
+
+
+export const emailRecoveryProductDeleted = async(req, email, emailToken) =>{
+    try {
+        const domain = `${req.protocol}://${req.get("host")}`;
+        const link = `${domain}/login`;
+
+        gmailTrasnporter.sendMail({
+            from: "Ecommerce Facu Backend",
+            to: email,
+            subjec: "Your product in the Ecommerce Facu Backend fue deleted",
+            html: `
+                <h1>Go to login</h1>
+                <p>Click in this link: <a href=${link}>Login</a></p>
+            `
+        });
+    }
+    catch (error) {
+        console.log(error.message);
+    }
+}

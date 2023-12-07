@@ -1,4 +1,6 @@
 import { ProductService } from "../service/products.service.js"
+import { generateEmailWithToken, emailRecoveryProductDeleted } from "../helpers/gmail.js"
+
 
 export class ProductsController{
     static getProducts = async(req, res) =>{
@@ -76,12 +78,25 @@ export class ProductsController{
     }
 
 
+
     static deleteProduct = async(req, res) =>{
         try {
             let pid = req.params.pid
             let product = await ProductService.getProductById(pid)
+            
             if(req.user.role === "premium" && product.owner.toString() === req.user._id.toString() || req.user.role === "admin"){
                 await ProductService.deleteProduct(pid)
+                
+                const email = req.user.email
+                if(email){
+                    const token = generateEmailWithToken(email, 3*60)
+                    await emailRecoveryProductDeleted(req, email, token)
+                    res.json({status: "Success", message:`Email send to ${email} for the product deleted`})
+                }
+                else{
+                    res.json({status: "Error", message:`The user ${user.first_name} do not have this email ${email}`})
+                }
+                
                 res.json({status: "Success", message:"Product eliminated"})
             }
             else{

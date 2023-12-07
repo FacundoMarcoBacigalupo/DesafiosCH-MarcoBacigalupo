@@ -7,12 +7,32 @@ import { invalidParamMessage } from '../service/errors/invalidParamUser.service.
 
 
 export class UsersController{
+    static getUsers = async(req, res) =>{
+        try {
+            const users = UsersService.getUsers()
+            let { first_name, email, role } = users
+            
+            let userData = {
+                first_name,
+                email,
+                role
+            }
+            
+            res.json({status:"Success", message:"Found users", payload: userData})
+        }
+        catch (error) {
+            console.log(error.message)
+            res.json({status:"Error", message:"Error trying to get all  the users"})
+        }
+    }
+
+
 
     static getUserById = async(req, res) =>{
         try {
             const uid = req.params.uid
             const userId = parseInt(uid)
-    
+            
             if(Number.isNaN(userId)){
                 CustomError.createError({
                     name: "UserById error",
@@ -21,22 +41,23 @@ export class UsersController{
                     code: EErrors.INVALID_PARAM
                 })
             }
-    
+            
             const user = await UsersService.getUserById(userId)
-            res.json({status:"Success", message:"Found user", payload:user})
+            res.json({status:"Success", message:"Found user", payload: user})
         }
         catch (error) {
             console.log(error.message)
-            res.json({status:"Error", message:"Error trying get the user with that ID"})
+            res.json({status:"Error", message:"Error trying to get the user with that ID"})
         }
     }
+
 
 
 
     static createUser = async(req, res) =>{
         try {
             const { first_name, last_name, email, age } = req.body
-    
+            
             if(!first_name || !last_name || !email){
                 CustomError.createError({
                     name: "User creating error",
@@ -45,16 +66,16 @@ export class UsersController{
                     code: EErrors.INVALID_JSON
                 })
             }
-        
+            
             const newUser = {
                 first_name,
                 last_name,
                 age,
                 email
             }
-        
+            
             const userCreated = UsersService.createUser(newUser)
-        
+            
             res.send({ status: "Succes", message:"User created", payload: userCreated })
         }
         catch (error) {
@@ -62,6 +83,7 @@ export class UsersController{
             res.send({status:"Error", message:"Error trying create the user"})
         }
     }
+
 
 
 
@@ -99,6 +121,7 @@ export class UsersController{
 
 
 
+
     static updateUser = async(req, res) =>{
         try {
             const uid = req.params.uid
@@ -130,6 +153,7 @@ export class UsersController{
             return res.send({status:"Error", message:"Error trying update the user with that ID"})
         }
     }
+
 
 
 
