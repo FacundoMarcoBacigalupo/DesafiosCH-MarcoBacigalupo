@@ -1,5 +1,6 @@
 import { productDao } from '../dao/factory.js';
 import { cartDao } from '../dao/factory.js';
+import { UsersService } from "../service/users.service.js"
 
 
 
@@ -126,5 +127,17 @@ export class ViewsController{
     static renderReserPassword = (req, res) =>{
         const token = req.query.token;
         res.render("resetPassword", {token, style: "forms.css"})
+    }
+
+
+
+    static renderDashboardUsers = async(req, res) =>{
+        try {
+            const users = await UsersService.getUsers()
+            res.render("dashboardUsers", {users, style: "forms.css"})
+        }
+        catch (error) {
+            res.json({status:"Error", message:error.message})
+        }
     }
 };

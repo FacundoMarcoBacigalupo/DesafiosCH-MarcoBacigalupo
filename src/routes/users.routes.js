@@ -36,5 +36,7 @@ router.put("/:uid/documents", uploaderDocuments.fields([
 
 
 
+router.delete("/", UsersController.deleteUsers)
+
 
 export { router as userRouter }

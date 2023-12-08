@@ -3,13 +3,13 @@ import { CustomError } from "../service/errors/CustomError.service.js";
 import { generateUserErrorInfo } from "../service/errors/Info.service.js";
 import { EErrors } from "../service/errors/Enums.service.js";
 import { invalidParamMessage } from '../service/errors/invalidParamUser.service.js';
-
+import { generateEmailWithToken, emailRecoveryAcountDeleted } from "../helpers/gmail.js"
 
 
 export class UsersController{
     static getUsers = async(req, res) =>{
         try {
-            const users = UsersService.getUsers()
+            const users = await UsersService.getUsers()
             let { first_name, email, role } = users
             
             let userData = {
@@ -47,7 +47,7 @@ export class UsersController{
         }
         catch (error) {
             console.log(error.message)
-            res.json({status:"Error", message:"Error trying to get the user with that ID"})
+            res.status(400).json({status:"Error", message:"Error trying to get the user with that ID"})
         }
     }
 
@@ -74,13 +74,12 @@ export class UsersController{
                 email
             }
             
-            const userCreated = UsersService.createUser(newUser)
-            
+            const userCreated = await UsersService.createUser(newUser)
             res.send({ status: "Succes", message:"User created", payload: userCreated })
         }
         catch (error) {
             console.log(error.message)
-            res.send({status:"Error", message:"Error trying create the user"})
+            res.status(400).send({status:"Error", message:"Error trying create the user"})
         }
     }
 
@@ -193,6 +192,35 @@ export class UsersController{
         catch (error) {
             console.log(error.message)
             res.json({status:"Error", message:"Documents could not be loaded"})
+        }
+    }
+
+
+
+
+    static deleteUsers = async(req, res) =>{
+        try {
+            const users = await UsersService.getUsers()
+            
+            for (const user of users) {
+                if(user.last_connection < new Date()){
+                    await UsersService.deleteUser(user._id)
+                    const email = user.email
+                    
+                    if(email){
+                        const token = generateEmailWithToken(email, 3*60)
+                        emailRecoveryAcountDeleted(req, email, token)
+                    }
+                    else{
+                        console.log(`The user ${user.first_name} does not have an email`);
+                    }
+                }
+            };
+            res.json({ status: "Success", message: "Emails sent for account deletion" });
+        }
+        catch (error) {
+            console.log(error.message)
+            res.status(500).json({status:"Error", message:"Can not delete the users"})
         }
     }
 }

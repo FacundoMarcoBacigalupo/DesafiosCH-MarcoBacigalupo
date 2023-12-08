@@ -1,0 +1,28 @@
+<h1><strong>Dashboard Users</strong></h1>
+
+<hr>
+<br>
+
+{{#if users}}
+    <h2>List of users</h2>
+    <br/>
+
+    <ul>
+        {{#each users}}
+            <div id={{this._id}}>
+                <li>Name: {{this.first_name}}</li>
+                <li>Email: {{this.email}}</li>
+                <li>Role: {{this.role}}</li>
+                <li>Last connection: {{this.last_connection}}</li>
+                <section>
+                    <a href="/api/sessions/deleteUser">Delete acount</a>
+                </section>
+            </div>
+            <br>
+            <br/>
+        {{/each}}
+    </ul>
+
+    {{else}}
+    <h2>Not found products</h2>
+{{/if}}
