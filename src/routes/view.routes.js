@@ -1,5 +1,5 @@
 import { Router} from "express";
-import { checkUserAuthenticate } from "../dao/middlewares/auth.js";
+import { checkRole, checkUserAuthenticate } from "../dao/middlewares/auth.js";
 import { ViewsController } from "../controller/views.controller.js";
 
 
@@ -19,7 +19,7 @@ router.get("/products", checkUserAuthenticate, ViewsController.renderProducts);
 
 
 //View CartId
-router.get("/carts:cid", ViewsController.renderCartId);
+router.get("/carts", checkUserAuthenticate, ViewsController.renderCart);
 
 
 //View register
@@ -31,13 +31,17 @@ router.get("/login", ViewsController.renderLogin);
 
 
 //View profile
-router.get("/profile", ViewsController.renderProfile);
+router.get("/profile", checkUserAuthenticate, ViewsController.renderProfile);
 
 
-//View recuperar contraseña
+//View forgot passwords
 router.get("/forgot-password", ViewsController.renderForgotPassword)
 
 router.get("/reset-password", ViewsController.renderReserPassword)
+
+
+//View dashboard users
+router.get("/dashboard-users", checkUserAuthenticate, checkRole(["admin"]), ViewsController.renderDashboardUsers)
 
 
 export { router as viewRouters };

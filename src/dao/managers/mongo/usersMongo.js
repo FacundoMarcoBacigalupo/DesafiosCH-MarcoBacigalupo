@@ -35,6 +35,21 @@ export class UsersMongo{
     }
 
 
+
+    async getUsers(){
+        try {
+            let users = await this.model.find().lean()
+            return users
+        }
+        catch (error) {
+            console.log(error.message)
+            throw new Error("Error with get user with that ID")
+        }
+    }
+
+
+
+
     async getUserById(userId){
         try {
             let user = await this.model.findById(userId).lean()
@@ -51,6 +66,7 @@ export class UsersMongo{
         }
     }
 
+
     async updateUser(userId, newUserInfo){
         try {
             const userUpdated = await this.model.findByIdAndUpdate(userId, newUserInfo,{new:true})
@@ -58,7 +74,20 @@ export class UsersMongo{
         }
         catch (error) {
             console.log(error.message)
-            throw new Error("Error with create user")
+            throw new Error("Error with update user")
+        }
+    }
+
+
+
+    async deleteUser(userId){
+        try {
+            const userDeleted = await this.model.findByIdAndDelete(userId)
+            return userDeleted
+        }
+        catch (error) {
+            console.log(error.message)
+            throw new Error("Error with delete user")
         }
     }
 }

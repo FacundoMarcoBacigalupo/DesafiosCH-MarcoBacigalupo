@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-decoration: none;
 }
 
 
@@ -41,6 +42,12 @@ p::first-letter{
     font-size: 40px;
 }
 
+
+li{
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(189, 189, 189);
+}
 
 form{
     margin-top: 50px;

@@ -1,0 +1,31 @@
+<h1><strong>Dashboard Users</strong></h1>
+
+<hr>
+<br>
+
+{{#if users}}
+    <h2>List of users</h2>
+    <br/>
+
+    <ul>
+        {{#each users}}
+            <div style="border-bottom: 1px solid rgb(29, 29, 29); margin-bottom: 60px;" id={{this._id}}>
+                <li style="margin-bottom: 12px;">Name: {{this.first_name}}</li>
+                <li style="margin-bottom: 12px;">Email: {{this.email}}</li>
+                <section style="margin-bottom: 12px;">
+                    <li>Role: {{this.role}}</li>
+                    <a href="/api/users/premium/{{this._id}}">Change role</a>
+                </section>
+                <li style="margin-bottom: 12px;">Last connection: {{this.last_connection}}</li>
+                <section style="margin-bottom: 8px;">
+                    <a href="/api/sessions/deleteUser/{{this._id}}">Delete this acount</a>
+                </section>
+            </div>
+            <br>
+            <br/>
+        {{/each}}
+    </ul>
+
+    {{else}}
+    <h2>Not found products</h2>
+{{/if}}

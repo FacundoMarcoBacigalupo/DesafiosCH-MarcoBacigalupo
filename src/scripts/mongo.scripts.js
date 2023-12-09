@@ -27,7 +27,7 @@ addOwnerToProducts()
 
 
 
-//Script to delete all user in data basa
+//Script to delete all user in data base
 const deleteAllUser = async() =>{
     try {
         await mongoose.connect(config.mongo.url)

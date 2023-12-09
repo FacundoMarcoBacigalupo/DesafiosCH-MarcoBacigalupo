@@ -7,6 +7,10 @@ import { uploaderDocuments } from "../utils.js"
 const router = Router()
 
 
+//Get all users
+router.get("/getUsers", UsersController.getUsers)
+
+
 //Get user by id
 router.get("/:uid", UsersController.getUserById)
 
@@ -20,10 +24,10 @@ router.put("/:uid", UsersController.updateUser)
 
 
 //Change role to premium a user or user to premium
-router.post("/premium/:uid", checkRole(["admin"]), UsersController.modifyRole)
+router.put("/premium/:uid", checkRole(["admin"]), UsersController.modifyRole)
 
 
-//
+//Documents
 router.put("/:uid/documents", uploaderDocuments.fields([
     {name:"identification", maxCount:1},
     {name:"domicile", maxCount:1},
@@ -31,6 +35,8 @@ router.put("/:uid/documents", uploaderDocuments.fields([
 ]), UsersController.uploadDocuments)
 
 
+
+router.delete("/", UsersController.deleteUsers)
 
 
 export { router as userRouter }

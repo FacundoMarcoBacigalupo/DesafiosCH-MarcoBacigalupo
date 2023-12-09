@@ -3,16 +3,34 @@ import { CustomError } from "../service/errors/CustomError.service.js";
 import { generateUserErrorInfo } from "../service/errors/Info.service.js";
 import { EErrors } from "../service/errors/Enums.service.js";
 import { invalidParamMessage } from '../service/errors/invalidParamUser.service.js';
-
+import { generateEmailWithToken, emailRecoveryAcountDeleted } from "../helpers/gmail.js"
 
 
 export class UsersController{
+    static getUsers = async(req, res) =>{
+        try {
+            const users = await UsersService.getUsers()
+            
+            const userData = users.map(user => {
+                const { first_name, email, role } = user;
+                return { first_name, email, role };
+            });
+            
+            res.json({status:"Success", message:"Found users", payload: userData})
+        }
+        catch (error) {
+            console.log(error.message)
+            res.json({status:"Error", message:"Error trying to get all  the users"})
+        }
+    }
+
+
 
     static getUserById = async(req, res) =>{
         try {
             const uid = req.params.uid
             const userId = parseInt(uid)
-    
+            
             if(Number.isNaN(userId)){
                 CustomError.createError({
                     name: "UserById error",
@@ -21,22 +39,23 @@ export class UsersController{
                     code: EErrors.INVALID_PARAM
                 })
             }
-    
+            
             const user = await UsersService.getUserById(userId)
-            res.json({status:"Success", message:"Found user", payload:user})
+            res.json({status:"Success", message:"Found user", payload: user})
         }
         catch (error) {
             console.log(error.message)
-            res.json({status:"Error", message:"Error trying get the user with that ID"})
+            res.status(400).json({status:"Error", message:"Error trying to get the user with that ID"})
         }
     }
+
 
 
 
     static createUser = async(req, res) =>{
         try {
             const { first_name, last_name, email, age } = req.body
-    
+            
             if(!first_name || !last_name || !email){
                 CustomError.createError({
                     name: "User creating error",
@@ -45,31 +64,29 @@ export class UsersController{
                     code: EErrors.INVALID_JSON
                 })
             }
-        
+            
             const newUser = {
                 first_name,
                 last_name,
                 age,
                 email
             }
-        
-            const userCreated = UsersService.createUser(newUser)
-        
+            
+            const userCreated = await UsersService.createUser(newUser)
             res.send({ status: "Succes", message:"User created", payload: userCreated })
         }
         catch (error) {
             console.log(error.message)
-            res.send({status:"Error", message:"Error trying create the user"})
+            res.status(400).send({status:"Error", message:"Error trying create the user"})
         }
     }
 
 
 
+
     static modifyRole = async(req, res) =>{
         try {
-            const uid = req.params.uid
-            const userId = parseInt(uid)
-            
+            const userId = req.params.uid            
             const user = await UsersService.getUserById(userId)
             const userRole = user.role
             
@@ -81,7 +98,7 @@ export class UsersController{
                     user.role = "user"
                 }
                 else{
-                    return res.send({status:"Error", message:"Cannot change role of this user"})
+                    return res.send({status:"Error", message:"Cannot change role for this user"})
                 }
                 
                 await UsersService.updateUser(user._id, user)
@@ -99,12 +116,12 @@ export class UsersController{
 
 
 
+
     static updateUser = async(req, res) =>{
         try {
-            const uid = req.params.uid
-            const userId = parseInt(uid)
+            const userId = req.params.uid
             const { first_name, last_name, email, age } = req.body
-    
+            
             if(!first_name || !last_name || !email){
                 CustomError.createError({
                     name: "Updating user error",
@@ -113,16 +130,16 @@ export class UsersController{
                     code: EErrors.INVALID_JSON
                 })
             }
-        
+            
             const userUpdate = {
                 first_name,
                 last_name,
                 age,
                 email
             }
-        
+            
             await UsersService.updateUser(userId, userUpdate)
-        
+            
             return res.send({status:"Success", message:"User updated"})
         }
         catch (error) {
@@ -130,6 +147,7 @@ export class UsersController{
             return res.send({status:"Error", message:"Error trying update the user with that ID"})
         }
     }
+
 
 
 
@@ -157,7 +175,7 @@ export class UsersController{
 
             user.documents = docs
             if(docs.length === 3){
-                user.stauts = "complete"
+                user.status = "complete"
             }
             else{
                 user.status = "incomplete"
@@ -169,6 +187,35 @@ export class UsersController{
         catch (error) {
             console.log(error.message)
             res.json({status:"Error", message:"Documents could not be loaded"})
+        }
+    }
+
+
+
+
+    static deleteUsers = async(req, res) =>{
+        try {
+            const users = await UsersService.getUsers()
+            
+            for (const user of users) {
+                if(user.last_connection < new Date()){
+                    await UsersService.deleteUser(user._id)
+                    const email = user.email
+                    
+                    if(email){
+                        const token = generateEmailWithToken(email, 3*60)
+                        emailRecoveryAcountDeleted(req, email, token)
+                    }
+                    else{
+                        console.log(`The user ${user.first_name} does not have an email`);
+                    }
+                }
+            };
+            res.json({ status: "Success", message: "Emails sent for account deletion" });
+        }
+        catch (error) {
+            console.log(error.message)
+            res.status(500).json({status:"Error", message:"Can not delete the users"})
         }
     }
 }
