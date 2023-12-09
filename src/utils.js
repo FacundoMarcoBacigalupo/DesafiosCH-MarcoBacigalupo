@@ -73,6 +73,7 @@ const multerProfileFilter = (req, file, cb) =>{
 
 
 
+
 //Save profile img
 const profileStorage = multer.diskStorage({
     destination: function(req, file, cb){
@@ -83,6 +84,7 @@ const profileStorage = multer.diskStorage({
     }
 })
 export const uploaderProfile = multer({storage:profileStorage, fileFilter:multerProfileFilter})
+
 
 
 
@@ -99,10 +101,11 @@ export const uploaderProducts = multer({storage:productsStorage})
 
 
 
+
 //Save documents
 const documentsStorage = multer.diskStorage({
     destination: function(req, file, cb){
-        cb(null, path.join(__dirname,"/multer/products/documents"))
+        cb(null, path.join(__dirname,"/multer/users/documents"))
     },
     filename: function(req, file, cb){
         cb(null, `${req.user.email}-document-${file.originalname}`)

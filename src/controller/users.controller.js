@@ -10,13 +10,11 @@ export class UsersController{
     static getUsers = async(req, res) =>{
         try {
             const users = await UsersService.getUsers()
-            let { first_name, email, role } = users
             
-            let userData = {
-                first_name,
-                email,
-                role
-            }
+            const userData = users.map(user => {
+                const { first_name, email, role } = user;
+                return { first_name, email, role };
+            });
             
             res.json({status:"Success", message:"Found users", payload: userData})
         }
@@ -88,9 +86,7 @@ export class UsersController{
 
     static modifyRole = async(req, res) =>{
         try {
-            const uid = req.params.uid
-            const userId = parseInt(uid)
-            
+            const userId = req.params.uid            
             const user = await UsersService.getUserById(userId)
             const userRole = user.role
             
@@ -102,7 +98,7 @@ export class UsersController{
                     user.role = "user"
                 }
                 else{
-                    return res.send({status:"Error", message:"Cannot change role of this user"})
+                    return res.send({status:"Error", message:"Cannot change role for this user"})
                 }
                 
                 await UsersService.updateUser(user._id, user)
@@ -123,10 +119,9 @@ export class UsersController{
 
     static updateUser = async(req, res) =>{
         try {
-            const uid = req.params.uid
-            const userId = parseInt(uid)
+            const userId = req.params.uid
             const { first_name, last_name, email, age } = req.body
-    
+            
             if(!first_name || !last_name || !email){
                 CustomError.createError({
                     name: "Updating user error",
@@ -135,16 +130,16 @@ export class UsersController{
                     code: EErrors.INVALID_JSON
                 })
             }
-        
+            
             const userUpdate = {
                 first_name,
                 last_name,
                 age,
                 email
             }
-        
+            
             await UsersService.updateUser(userId, userUpdate)
-        
+            
             return res.send({status:"Success", message:"User updated"})
         }
         catch (error) {
@@ -180,7 +175,7 @@ export class UsersController{
 
             user.documents = docs
             if(docs.length === 3){
-                user.stauts = "complete"
+                user.status = "complete"
             }
             else{
                 user.status = "incomplete"

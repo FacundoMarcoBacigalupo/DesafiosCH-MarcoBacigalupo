@@ -24,7 +24,7 @@ router.put("/:uid", UsersController.updateUser)
 
 
 //Change role to premium a user or user to premium
-router.post("/premium/:uid", checkRole(["admin"]), UsersController.modifyRole)
+router.put("/premium/:uid", checkRole(["admin"]), UsersController.modifyRole)
 
 
 //Documents

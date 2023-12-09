@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-decoration: none;
 }
 
 
@@ -43,8 +44,8 @@ p::first-letter{
 
 
 li{
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 500;
     color: rgb(189, 189, 189);
 }
 

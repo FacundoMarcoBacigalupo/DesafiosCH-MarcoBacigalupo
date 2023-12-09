@@ -17,13 +17,13 @@ export class SessionController{
 
     static successLogin = async(req, res) =>{
         const user = req.user
-        if(!req.user){
+        if(!user){
             return res.status(400).send({status:"Error", message:"Invalid credentials"})
         }
         req.session.user = {
             first_name: req.user.first_name,
-            last_name:  req.user.last_name,
-            email: req.user.email
+            email: req.user.email,
+            password: req.user.password
         }
         return res.render("profile", {user, style: "forms.css"})
     }
@@ -61,6 +61,8 @@ export class SessionController{
     }
 
 
+
+
     static deleteUser = async(req, res) =>{
         try {
             let user = req.user
@@ -73,6 +75,24 @@ export class SessionController{
             res.status(500).json({ status: "Error", message: "Error with delete the user" });
         }
     }
+
+
+
+    static deleteUserById = async(req, res) =>{
+        try {
+            let uID = req.params.uid
+            await UsersService.deleteUser(uID)
+            res.status(200).json({ status: "Success", message: `The user with the id ${uID} by deleted` });
+        }
+        catch (error) {
+            console.log(error.message)
+            res.status(500).json({ status: "Error", message: "Error with delete the user" });
+        }
+    }
+
+
+
+
 
 
     static forgotPassword = async(req ,res) =>{
