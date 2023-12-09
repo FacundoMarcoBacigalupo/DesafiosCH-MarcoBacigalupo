@@ -6,7 +6,9 @@ import { ProductService } from '../service/products.service.js'
 export class CartsController{
     static createCart = async(req, res) =>{
         try {
-            const cartCreate = await CartsService.createCart()
+            let pId = req.params.pid
+            let quant = 4
+            const cartCreate = await CartsService.createCart(quant, pId)
             res.send({status: "Success", data: cartCreate, message: "Cart created"})
         }
         catch (error) {
@@ -18,8 +20,8 @@ export class CartsController{
 
     static getProductInCartById = async(req, res) =>{
         try {
-            const cartId = parseInt(req.params.cid)
-            const productId = parseInt(req.params.pid)
+            const cartId = req.params.cid
+            const productId = req.params.pid
     
             const cart = await CartsService.getCartById(cartId)
             const product = await ProductService.getProductById(pid)
@@ -68,7 +70,7 @@ export class CartsController{
 
     static getCartWithPopulate = async(req, res) =>{
         try {
-            let cId = parseInt(req.params.cid)
+            let cId = req.params.cid
             let cart = await CartsService.getCartById(cId).populate("product")
             if(!cart){
                 res.send({status:"Error", data: "Cart no exist"})
@@ -85,8 +87,8 @@ export class CartsController{
 
     static deleteProductInCartById = async(req, res) =>{
         try {
-            let cartId = parseInt(req.params.cid)
-            let productId = parseInt(req.params.pid)
+            let cartId = req.params.cid
+            let productId = req.params.pid
     
             let cart = await CartsService.getCartById(cartId)
             if(!cart){
@@ -111,7 +113,7 @@ export class CartsController{
 
     static deleteCartById = async(req, res) =>{
         try {
-            let cartId = parseInt(req.params.cid)
+            let cartId = req.params.cid
             let cart = await CartsService.getCartById(cartId)
             if(!cart){
                 return res.send({status:"Error", message:"Cart no found"})
@@ -130,7 +132,7 @@ export class CartsController{
 
     static updateCartById = async(req, res) =>{
         try {
-            let cartId = parseInt(req.params.cid)
+            let cartId = req.params.cid
             let cartContent = req.body
             
             let cart = await CartsService.getCartById(cartId)

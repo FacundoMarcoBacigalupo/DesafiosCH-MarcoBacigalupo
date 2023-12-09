@@ -5,7 +5,7 @@ dotenv.config();
 export const config = {
     server:{
         port: process.env.PORT || 8080,
-        secretSession: process.env.SECRET_SESSION || "clavDevelopmentSecret",
+        secretSession: process.env.SECRET_SESSION,
         persistense: process.env.PERSISTENSE || "MONGO"
     },
     mongo:{

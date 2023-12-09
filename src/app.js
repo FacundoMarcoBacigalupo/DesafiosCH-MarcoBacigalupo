@@ -53,7 +53,7 @@ app.set('views', path.join(__dirname,"/views"));
 
 
 
-//Configuracion de sessions
+//Sessions
 app.use(session({
     store:MongoStore.create({
         mongoUrl:config.mongo.url
@@ -63,7 +63,7 @@ app.use(session({
     saveUninitialized:true
 }));
 
-//Configuracion de Passport
+//Passport
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());

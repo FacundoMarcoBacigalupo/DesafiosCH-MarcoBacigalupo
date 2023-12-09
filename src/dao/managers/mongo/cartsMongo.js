@@ -6,10 +6,17 @@ export class CartsMongo{
     }
 
 
-//Agregar productos al carrito
-    async addCart() {
+//Add products to cart
+    async createCart(quant, pId) {
         try {
-            const cartCreated = await this.model.create({})
+            const cartCreated = await this.model.create({
+                products:[
+                    {
+                        quantity:quant,
+                        productId:pId
+                    }
+                ]
+            })
             return cartCreated
         }
         catch (error) {
@@ -51,7 +58,7 @@ export class CartsMongo{
 
 
 
-//Obtener un carrito por Id
+//Get cart by Id
     async getCartById(id) {
         try {
             const cart = await this.model.findById(id);
@@ -68,7 +75,7 @@ export class CartsMongo{
 
 
 
-//Eliminar un product
+//Delete cart by id
     async deleteCart(id) {
         try {
             const product = this.getCartById(id)
@@ -86,7 +93,7 @@ export class CartsMongo{
 
 
 
-//Obtener con paginas
+//Get cart with paginate
     async getCartsPaginate (query, options){
         try {
             const result = await this.model.paginate(query, options)
