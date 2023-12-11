@@ -9,9 +9,10 @@
 
     <ul>
         {{#each users}}
-            <div style="border-bottom: 1px solid rgb(29, 29, 29); margin-bottom: 60px;" id={{this._id}}>
+            <div style="border-bottom: 1px solid rgb(29, 29, 29); margin-bottom: 60px;">
                 <li style="margin-bottom: 12px;">Name: {{this.first_name}}</li>
                 <li style="margin-bottom: 12px;">Email: {{this.email}}</li>
+                <li style="margin-bottom: 12px;">Status: {{this.status}}</li>
                 <section style="margin-bottom: 12px;">
                     <li>Role: {{this.role}}</li>
                     <a href="/api/users/premium/{{this._id}}">Change role</a>

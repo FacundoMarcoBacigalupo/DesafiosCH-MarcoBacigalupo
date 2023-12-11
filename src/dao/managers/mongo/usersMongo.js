@@ -69,7 +69,7 @@ export class UsersMongo{
 
     async updateUser(userId, newUserInfo){
         try {
-            const userUpdated = await this.model.findByIdAndUpdate(userId, newUserInfo,{new:true})
+            const userUpdated = await this.model.findByIdAndUpdate(userId, newUserInfo, {new:true})
             return userUpdated
         }
         catch (error) {

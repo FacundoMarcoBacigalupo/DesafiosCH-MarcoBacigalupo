@@ -155,24 +155,24 @@ export class UsersController{
         try {
             const userId = req.params.uid
             const user = await UsersService.getUserById(userId)
-
-            const identification = req.files?.identification?.[0] || null
-            const domicile = req.files?.domicile?.[0] || null
-            const accountStatus = req.files?.accountStatus?.[0] || null
-
-            const docs = []
+            
+            const identification = req.files?.identification?.[0] || null;
+            const domicile = req.files?.domicile?.[0] || null;
+            const accountStatus = req.files?.accountStatus?.[0] || null;
+            
+            const docs = [];
             if(identification){
-                docs.push({name:identification, reference:identification.filename})
+                docs.push({name:"identification", reference:identification.filename})
             };
-
+            
             if(domicile){
-                docs.push({name:domicile, reference:domicile.filename})
+                docs.push({name:"domicile", reference:domicile.filename})
             };
-
+            
             if(accountStatus){
-                docs.push({name:accountStatus, reference:accountStatus.filename})
+                docs.push({name:"accountStatus", reference:accountStatus.filename})
             };
-
+            
             user.documents = docs
             if(docs.length === 3){
                 user.status = "complete"
@@ -180,7 +180,7 @@ export class UsersController{
             else{
                 user.status = "incomplete"
             }
-
+            
             const result = await UsersService.updateUser(user._id, user)
             res.json({status:"Success", data:result})
         }
